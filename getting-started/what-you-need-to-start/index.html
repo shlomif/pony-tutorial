@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>What you need to start - Pony Tutorial</title>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script src="../../js/theme.js"></script>
+
+  <style>
+    body {font-size: 90%;}
+    pre, code {font-size: 100%;}
+    h3, h4, h5, h6 {color: #2980b9; font-weight: 300}
+  </style> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Pony Tutorial</a>
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <ul class="current">
+    
+        
+        <span>Getting started</span>
+            
+                <li class="toctree-l1 current">
+                    <a class="current" href=".">What you need to start</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#what-you-need-to-start">What you need to start</a></li>
+                            
+                                <li><a class="toctree-l3" href="#a-text-editor">A text editor</a></li>
+                            
+                                <li><a class="toctree-l3" href="#the-compiler">The compiler</a></li>
+                            
+                                <li><a class="toctree-l3" href="#compiling-your-program">Compiling your program</a></li>
+                            
+                        
+                        </ul>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../helloworld">Helloworld</a>
+                    
+                </li>
+            
+        
+
+    
+</ul>
+
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="../.."></a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    <li>What you need to start</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              <h1 id="what-you-need-to-start">What you need to start</h1>
+<p>To get started, you'll need a text editor and the <a href="https://github.com/CausalityLtd/ponyc">ponyc</a> compiler. That's it.</p>
+<h2 id="a-text-editor">A text editor</h2>
+<p>While you can write code using any editor, it's nice to use one with some support for the language. Here are some:</p>
+<ul>
+<li><a href="http://www.sublimetext.com/">Sublime Text</a>. There's a <a href="https://packagecontrol.io/packages/Pony%20Language">Pony Language</a> package.</li>
+<li><a href="https://atom.io/">Atom</a>. There's a <a href="https://atom.io/packages/language-pony">language-pony</a> package.</li>
+<li>Vim. A Pony package is pending.</li>
+<li><a href="http://www.visualstudio.com/">Microsoft Visual Studio</a>. A Pony plugin is pending.</li>
+</ul>
+<p>If you have a favourite editor that isn't supported, we'd love to help you build a Pony package for it.</p>
+<h2 id="the-compiler">The compiler</h2>
+<p>Pony is a <em>compiled</em> language, rather than an <em>interpreted</em> one. In fact, it goes even further: Pony is an <em>ahead-of-time</em> (AOT) compiled language, rather than a <em>just-in-time</em> (JIT) compiled language.</p>
+<p>What this means is that once you build your program, you can run it over and over again without needing a compiler or a virtual machine or anything else. It's a complete program, all on it's own.</p>
+<p>But it also means you need to build your program before you can run it. In an interpreted language or a JIT compiled language, you tend to do things like this to run your program:</p>
+<pre><code>$ python helloworld.py
+</code></pre>
+
+<p>Or maybe you put a <strong>shebang</strong> in your program (like <code>#!/usr/bin/env python</code>), then <code>chmod</code> to set the executable bit, and then do:</p>
+<pre><code>$ ./helloworld.py
+</code></pre>
+
+<p>When you use Pony, you don't do any of that!</p>
+<h2 id="compiling-your-program">Compiling your program</h2>
+<p>If you are in the same directory as your program, you can just do:</p>
+<pre><code>$ ponyc
+</code></pre>
+
+<p>That tells the Pony compiler that your current working directory contains your source code, and to please compile it. If your source code is in some other directory, you can tell ponyc where it is:</p>
+<pre><code>$ ponyc path/to/my/code
+</code></pre>
+
+<p>There are other options as well, but we'll cover those later.</p>
+
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../helloworld" class="btn btn-neutral float-right" title="Helloworld"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../.." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+    <!-- Copyright etc -->
+    </p>
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        
+      <span><a href="../.." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../helloworld" style="color: #fcfcfc">Next &raquo;</a></span>
+    </span>
+</div>
+</body>
+</html>
