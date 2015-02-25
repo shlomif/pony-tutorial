@@ -75,16 +75,26 @@
                     
                         <ul>
                         
-                            <li class="toctree-l2"><a href="#hello-world">Hello, world!</a></li>
+                            <li class="toctree-l2"><a href="#the-code">The code</a></li>
                             
-                                <li><a class="toctree-l3" href="#the-code">The code</a></li>
+                        
+                            <li class="toctree-l2"><a href="#compiling-the-program">Compiling the program</a></li>
                             
-                                <li><a class="toctree-l3" href="#compiling-the-program">Compiling the program</a></li>
-                            
-                                <li><a class="toctree-l3" href="#running-the-program">Running the program</a></li>
+                        
+                            <li class="toctree-l2"><a href="#running-the-program">Running the program</a></li>
                             
                         
                         </ul>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../how-it-works">How it works</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../whitespace">Whitespace</a>
                     
                 </li>
             
@@ -93,6 +103,11 @@
     
         
         <span>Types</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../types/static-vs-dynamic">Static vs dynamic</a>
+                    
+                </li>
             
                 <li class="toctree-l1 ">
                     <a class="" href="../../types/classes">Classes</a>
@@ -105,33 +120,12 @@
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/type-alias">Type aliases</a>
-                    
-                </li>
-            
-        
-
-    
-        
-        <span>Whitespace Sensitivity</span>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../whitespace/sensitivity">Overview</a>
+                    <a class="" href="../../types/actors">Actors</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../whitespace/semicolons">Semicolons</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../whitespace/comments">Comments</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../whitespace/docstrings">Docstrings</a>
+                    <a class="" href="../../types/type-aliases">Type aliases</a>
                     
                 </li>
             
@@ -194,22 +188,7 @@
         <span>Methods</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../methods/constructors">Constructors</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../methods/functions">Functions</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../methods/named-and-default-args">Named and default arguments</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../methods/partial-functions">Partial functions</a>
+                    <a class="" href="../../methods/methods">Methods</a>
                     
                 </li>
             
@@ -497,14 +476,13 @@
 </div>
           <div role="main">
             <div class="section">
-              <h1 id="hello-world">Hello, world!</h1>
-<p>Our first program will be a very traditional one. We're going to print "Hello, world!". First, create a directory called <code>helloworld</code>:</p>
+              <p>Our first program will be a very traditional one. We're going to print "Hello, world!". First, create a directory called <code>helloworld</code>:</p>
 <pre><code>$ mkdir helloworld
 $ cd helloworld
 </code></pre>
 
 <p><strong>Does the name of the directory matter?</strong> Yes, it does. It's the name of your program! When your program is compiled, the resulting executable binary will have the same name as the directory your program lives in.</p>
-<h2 id="the-code">The code</h2>
+<h1 id="the-code">The code</h1>
 <p>Then, create a file in that directory called <code>main.pony</code>. </p>
 <p><strong>Does the name of the file matter?</strong> Not to the compiler, no. Pony doesn't care about filenames other than that they end in <code>.pony</code>. But it might matter to you! By giving files good names, it can be easier to find the code you're looking for later.</p>
 <p>In your file, put the following code:</p>
@@ -513,7 +491,7 @@ $ cd helloworld
     env.out.print(&quot;Hello, world!&quot;)
 </code></pre>
 
-<h2 id="compiling-the-program">Compiling the program</h2>
+<h1 id="compiling-the-program">Compiling the program</h1>
 <p>Now compile it:</p>
 <pre><code>$ ponyc
 Building .
@@ -526,7 +504,7 @@ Linking ./helloworld
 
 <p>Look at that! It built the current directory, <code>.</code>, plus the stuff that is built in to Pony, <code>builtin</code>, it generated some code, optimised it, created an object file (don't worry if you don't know what that is), and linked it into an executable with whatever libraries were needed. If you're a C/C++ programmer, that will all make sense to you, otherwise it probably won't, but that's ok, you can ignore it.</p>
 <p><strong>Wait, it linked too?</strong> Yes. You won't need a build system (like <code>make</code>) for Pony. It handles that for you (including handling the order of dependencies when you link to C libraries, but we'll get to that later).</p>
-<h2 id="running-the-program">Running the program</h2>
+<h1 id="running-the-program">Running the program</h1>
 <p>Now we can run the program:</p>
 <pre><code>$ ./helloworld
 Hello, world!
@@ -540,7 +518,7 @@ Hello, world!
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../../types/classes" class="btn btn-neutral float-right" title="Classes"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../how-it-works" class="btn btn-neutral float-right" title="How it works"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../what-you-need-to-start" class="btn btn-neutral" title="What you need to start"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -570,7 +548,7 @@ Hello, world!
     <span class="rst-current-version" data-toggle="rst-current-version">
         
       <span><a href="../what-you-need-to-start" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../../types/classes" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span style="margin-left: 15px"><a href="../how-it-works" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>

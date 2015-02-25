@@ -70,13 +70,13 @@
                     
                         <ul>
                         
-                            <li class="toctree-l2"><a href="#what-you-need-to-start">What you need to start</a></li>
+                            <li class="toctree-l2"><a href="#a-text-editor">A text editor</a></li>
                             
-                                <li><a class="toctree-l3" href="#a-text-editor">A text editor</a></li>
+                        
+                            <li class="toctree-l2"><a href="#the-compiler">The compiler</a></li>
                             
-                                <li><a class="toctree-l3" href="#the-compiler">The compiler</a></li>
-                            
-                                <li><a class="toctree-l3" href="#compiling-your-program">Compiling your program</a></li>
+                        
+                            <li class="toctree-l2"><a href="#compiling-your-program">Compiling your program</a></li>
                             
                         
                         </ul>
@@ -88,11 +88,26 @@
                     
                 </li>
             
+                <li class="toctree-l1 ">
+                    <a class="" href="../how-it-works">How it works</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../whitespace">Whitespace</a>
+                    
+                </li>
+            
         
 
     
         
         <span>Types</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../types/static-vs-dynamic">Static vs dynamic</a>
+                    
+                </li>
             
                 <li class="toctree-l1 ">
                     <a class="" href="../../types/classes">Classes</a>
@@ -105,33 +120,12 @@
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/type-alias">Type aliases</a>
-                    
-                </li>
-            
-        
-
-    
-        
-        <span>Whitespace Sensitivity</span>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../whitespace/sensitivity">Overview</a>
+                    <a class="" href="../../types/actors">Actors</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../whitespace/semicolons">Semicolons</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../whitespace/comments">Comments</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../whitespace/docstrings">Docstrings</a>
+                    <a class="" href="../../types/type-aliases">Type aliases</a>
                     
                 </li>
             
@@ -194,22 +188,7 @@
         <span>Methods</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../methods/constructors">Constructors</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../methods/functions">Functions</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../methods/named-and-default-args">Named and default arguments</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../methods/partial-functions">Partial functions</a>
+                    <a class="" href="../../methods/methods">Methods</a>
                     
                 </li>
             
@@ -497,9 +476,8 @@
 </div>
           <div role="main">
             <div class="section">
-              <h1 id="what-you-need-to-start">What you need to start</h1>
-<p>To get started, you'll need a text editor and the <a href="https://github.com/CausalityLtd/ponyc">ponyc</a> compiler. That's it.</p>
-<h2 id="a-text-editor">A text editor</h2>
+              <p>To get started, you'll need a text editor and the <a href="https://github.com/CausalityLtd/ponyc">ponyc</a> compiler. That's it.</p>
+<h1 id="a-text-editor">A text editor</h1>
 <p>While you can write code using any editor, it's nice to use one with some support for the language. Here are some:</p>
 <ul>
 <li><a href="http://www.sublimetext.com/">Sublime Text</a>. There's a <a href="https://packagecontrol.io/packages/Pony%20Language">Pony Language</a> package.</li>
@@ -508,7 +486,7 @@
 <li><a href="http://www.visualstudio.com/">Microsoft Visual Studio</a>. A Pony plugin is pending.</li>
 </ul>
 <p>If you have a favourite editor that isn't supported, we'd love to help you build a Pony package for it.</p>
-<h2 id="the-compiler">The compiler</h2>
+<h1 id="the-compiler">The compiler</h1>
 <p>Pony is a <em>compiled</em> language, rather than an <em>interpreted</em> one. In fact, it goes even further: Pony is an <em>ahead-of-time</em> (AOT) compiled language, rather than a <em>just-in-time</em> (JIT) compiled language.</p>
 <p>What this means is that once you build your program, you can run it over and over again without needing a compiler or a virtual machine or anything else. It's a complete program, all on it's own.</p>
 <p>But it also means you need to build your program before you can run it. In an interpreted language or a JIT compiled language, you tend to do things like this to run your program:</p>
@@ -520,7 +498,7 @@
 </code></pre>
 
 <p>When you use Pony, you don't do any of that!</p>
-<h2 id="compiling-your-program">Compiling your program</h2>
+<h1 id="compiling-your-program">Compiling your program</h1>
 <p>If you are in the same directory as your program, you can just do:</p>
 <pre><code>$ ponyc
 </code></pre>

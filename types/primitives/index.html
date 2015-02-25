@@ -75,11 +75,26 @@
                     
                 </li>
             
+                <li class="toctree-l1 ">
+                    <a class="" href="../../getting-started/how-it-works">How it works</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../getting-started/whitespace">Whitespace</a>
+                    
+                </li>
+            
         
 
     
         
         <span>Types</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../static-vs-dynamic">Static vs dynamic</a>
+                    
+                </li>
             
                 <li class="toctree-l1 ">
                     <a class="" href="../classes">Classes</a>
@@ -91,38 +106,23 @@
                     
                         <ul>
                         
+                            <li class="toctree-l2"><a href="#what-can-you-use-a-primitive-for">What can you use a primitive for?</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#built-in-primitive-types">Built-in primitive types</a></li>
+                            
+                        
                         </ul>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../type-alias">Type aliases</a>
-                    
-                </li>
-            
-        
-
-    
-        
-        <span>Whitespace Sensitivity</span>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../whitespace/sensitivity">Overview</a>
+                    <a class="" href="../actors">Actors</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../whitespace/semicolons">Semicolons</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../whitespace/comments">Comments</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../whitespace/docstrings">Docstrings</a>
+                    <a class="" href="../type-aliases">Type aliases</a>
                     
                 </li>
             
@@ -185,22 +185,7 @@
         <span>Methods</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../methods/constructors">Constructors</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../methods/functions">Functions</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../methods/named-and-default-args">Named and default arguments</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../methods/partial-functions">Partial functions</a>
+                    <a class="" href="../../methods/methods">Methods</a>
                     
                 </li>
             
@@ -488,14 +473,36 @@
 </div>
           <div role="main">
             <div class="section">
-              
+              <p>A <strong>primitive</strong> is similar to a <strong>class</strong>, but there are two critical differences:</p>
+<ol>
+<li>A <strong>primitive</strong> has no fields.</li>
+<li>There is only one instance of a user-defined <strong>primitive</strong>.</li>
+</ol>
+<p>Having no fields means primitives are never mutable. Having a single instance means that if your code calls a constructor on a <strong>primitive</strong> type, it always gets the same result back (except for built-in "machine word" primitives, covered below).</p>
+<h1 id="what-can-you-use-a-primitive-for">What can you use a <strong>primitive</strong> for?</h1>
+<p>There are three main uses of primitives (four, if you count built-in "machine word" primitives).</p>
+<ol>
+<li>As a "marker value". For example, Pony often uses the <strong>primitive</strong> <code>None</code> to indicate that something has "no value". Of course, it <em>does</em> have a value, so that you can check what it is, and the value is the single instance of <code>None</code>.</li>
+<li>As an "enumeration" type. By having a <strong>union</strong> of <strong>primitive</strong> types, you can have a type-safe enumeration. We'll cover <strong>union</strong> types later.</li>
+<li>As a "collection of functions". Since primitives can have functions, you can group functions together in a primitive type. You can see this in the standard library, where path handling functions are grouped in the <strong>primitive</strong> <code>Path</code>, for example.</li>
+</ol>
+<p>Primitives are quite powerful, particularly as enumerations. Unlike enumerations in other languages, each "value" in the enumeration is a complete type, which makes attaching data and functionality to enumeration values easy.</p>
+<h1 id="built-in-primitive-types">Built-in primitive types</h1>
+<p>The <strong>primitive</strong> keyword is also used to introduce certain built-in "machine word" types. Other than having a value associated with them, these work like user-defined primitives. These are:</p>
+<ul>
+<li><strong>Bool</strong>. This is a 1-bit value that is either <code>true</code> or <code>false</code>.</li>
+<li><strong>I8, I16, I32, I64, I128</strong>. Signed integers of various widths.</li>
+<li><strong>U8, U16, U32, U64, U128</strong>. Unsigned integers of various widths.</li>
+<li><strong>F32, F64</strong>. Floating point numbers of various widths.</li>
+</ul>
+
             </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../type-alias" class="btn btn-neutral float-right" title="Type aliases"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../actors" class="btn btn-neutral float-right" title="Actors"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../classes" class="btn btn-neutral" title="Classes"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -525,7 +532,7 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
         
       <span><a href="../classes" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../type-alias" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span style="margin-left: 15px"><a href="../actors" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Parameters - Pony Tutorial</title>
+  <title>Type aliases - Pony Tutorial</title>
   
 
   
@@ -92,27 +92,40 @@
         <span>Types</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/static-vs-dynamic">Static vs dynamic</a>
+                    <a class="" href="../static-vs-dynamic">Static vs dynamic</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/classes">Classes</a>
+                    <a class="" href="../classes">Classes</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/primitives">Primitives</a>
+                    <a class="" href="../primitives">Primitives</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/actors">Actors</a>
+                    <a class="" href="../actors">Actors</a>
                     
                 </li>
             
-                <li class="toctree-l1 ">
-                    <a class="" href="../../types/type-aliases">Type aliases</a>
+                <li class="toctree-l1 current">
+                    <a class="current" href=".">Type aliases</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#enumerations">Enumerations</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#complex-types">Complex types</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#other-stuff">Other stuff</a></li>
+                            
+                        
+                        </ul>
                     
                 </li>
             
@@ -123,26 +136,22 @@
         <span>Variables</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../let-vs-var">let vs. var</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 current">
-                    <a class="current" href=".">Parameters</a>
-                    
-                        <ul>
-                        
-                        </ul>
+                    <a class="" href="../../variables/let-vs-var">let vs. var</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../fields">Fields</a>
+                    <a class="" href="../../variables/parameters">Parameters</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../literals">Literals</a>
+                    <a class="" href="../../variables/fields">Fields</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../variables/literals">Literals</a>
                     
                 </li>
             
@@ -458,7 +467,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../..">Docs</a> &raquo;</li>
-    <li>Parameters</li>
+    <li>Type aliases</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -467,17 +476,49 @@
 </div>
           <div role="main">
             <div class="section">
-              
+              <p>A <strong>type alias</strong> is just a way to give a different name to a type. This may sound a bit silly: after all, types already have names! However, Pony can express some complicated types, and it can be convenient to have a short way to talk about them.</p>
+<p>We'll give a couple examples of using type aliases, just to get the feel of them.</p>
+<h1 id="enumerations">Enumerations</h1>
+<p>One way to use type aliases is to express an enumeration. For example, imagine we want to say something must either be Red, Blue or Green. We could write something like this:</p>
+<pre><code>primitive Red
+primitive Blue
+primitive Green
+
+type Colour is (Red | Blue | Green)
+</code></pre>
+
+<p>There are two new concepts in there. The first is the type alias, introduced with the keyword <code>type</code>. It just means that the name that comes after <code>type</code> will be translated by the compiler to the type that comes after <code>is</code>.</p>
+<p>The second new concept is the type that comes after <code>is</code>. It's not a single type! Instead, it's a <strong>union</strong> type. You can read the <code>|</code> symbol as <strong>or</strong> in this context, so the type is "Red or Blue or Green".</p>
+<p>A union type is a form of <em>closed world</em> type. That is, it says every type that can possibly be a member of it. In contrast, object-oriented subtyping is usually <em>open world</em>, e.g. in Java, an interface can be implemented by any number of classes.</p>
+<h1 id="complex-types">Complex types</h1>
+<p>If a type is complicated, it can be nice to give it a mnemonic name. For example, in the standard library, there is a <code>Map</code> type that gets used a lot. It's actually a type alias. Here's the real definition of <code>Map</code>:</p>
+<pre><code>type Map[K: (Hashable box &amp; Comparable[K] box), V] is HashMap[K, V, HashEq[K]]
+</code></pre>
+
+<p>That line has a ton of new concepts in it. We'll mention them briefly, and cover them in detail later.</p>
+<p>The first is that after the name <code>Map</code> comes some stuff in square brackets. That's because <code>Map</code> is a <strong>generic type</strong>. That is, you can give a <code>Map</code> some other types as parameters, to make specific kinds of <code>Map</code>. If you've used Java or C#, this will be pretty familiar. If you've used C++, the equivalent concept is templates, but they work quite differently.</p>
+<p>Next is that the first type parameter, <code>K</code>, has a type associated with it. This is a <strong>constraint</strong>, which means when you parameterise a <code>Map</code>, they type you pass for <code>K</code> must be a subtype of the constraint.</p>
+<p>Next is that the constraint type is has a <code>&amp;</code> in it. This is similar to the <code>|</code> of a <strong>union</strong> type: it means this is an <strong>intersection</strong> type. That is, it's something that must be <em>both</em> a <code>Hashable box</code> <em>and</em> a <code>Comparable[K] box</code>.</p>
+<p>Next is that <code>box</code> appears in the type. This is a <strong>capability</strong>. It means there is a certain class of operations we need to be able to do on a <code>K</code>. We'll cover this in more detail later.</p>
+<p>Finally, there's what we're aliasing:</p>
+<pre><code>HashMap[K, V, HashEq[K]]
+</code></pre>
+
+<p>That's another <strong>generic type</strong>. It means a <code>Map</code> is really a kind of <code>HashMap</code>.</p>
+<h1 id="other-stuff">Other stuff</h1>
+<p>Type aliases get used for a lot of things, but this gives you the general idea. Just remember that a type alias is always a convenience: you could replace every use of the type alias with the full type after the <code>is</code>.</p>
+<p>In fact, that's exactly what the compiler does.</p>
+
             </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../fields" class="btn btn-neutral float-right" title="Fields"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../../variables/let-vs-var" class="btn btn-neutral float-right" title="let vs. var"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../let-vs-var" class="btn btn-neutral" title="let vs. var"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../actors" class="btn btn-neutral" title="Actors"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -503,8 +544,8 @@
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
         
-      <span><a href="../let-vs-var" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../fields" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../actors" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../../variables/let-vs-var" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>

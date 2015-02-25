@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Parameters - Pony Tutorial</title>
+  <title>How it works - Pony Tutorial</title>
   
 
   
@@ -66,22 +66,38 @@
         <span>Getting started</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../getting-started/what-you-need-to-start">What you need to start</a>
+                    <a class="" href="../what-you-need-to-start">What you need to start</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../getting-started/helloworld">Helloworld</a>
+                    <a class="" href="../helloworld">Helloworld</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 current">
+                    <a class="current" href=".">How it works</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#line-1">Line 1</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#line-2">Line 2</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#line-3">Line 3</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#thats-it">That's it!</a></li>
+                            
+                        
+                        </ul>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../getting-started/how-it-works">How it works</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../getting-started/whitespace">Whitespace</a>
+                    <a class="" href="../whitespace">Whitespace</a>
                     
                 </li>
             
@@ -123,26 +139,22 @@
         <span>Variables</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../let-vs-var">let vs. var</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 current">
-                    <a class="current" href=".">Parameters</a>
-                    
-                        <ul>
-                        
-                        </ul>
+                    <a class="" href="../../variables/let-vs-var">let vs. var</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../fields">Fields</a>
+                    <a class="" href="../../variables/parameters">Parameters</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../literals">Literals</a>
+                    <a class="" href="../../variables/fields">Fields</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../variables/literals">Literals</a>
                     
                 </li>
             
@@ -458,7 +470,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../..">Docs</a> &raquo;</li>
-    <li>Parameters</li>
+    <li>How it works</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -467,17 +479,52 @@
 </div>
           <div role="main">
             <div class="section">
-              
+              <p>Let's look at our <code>helloworld</code> code again:</p>
+<pre><code>actor Main
+  new create(env: Env) =&gt;
+    env.out.print(&quot;Hello, world!&quot;)
+</code></pre>
+
+<p>Let's go through that line by line.</p>
+<h1 id="line-1">Line 1</h1>
+<pre><code>actor Main
+</code></pre>
+
+<p>This is a <strong>type declaration</strong>. The keyword <code>actor</code> means we are going to define an actor, which is a bit like a class in Python, Java, C#, C++, etc. Pony has classes too, which we'll see later.</p>
+<p>The difference between an actor and a class is that an actor can have <strong>asynchronous</strong> methods, called <strong>behaviours</strong>. We'll talk more about that later.</p>
+<p>A Pony program has to have a <code>Main</code> actor. It's kind of like the <code>main</code> function in C or C++, or the <code>main</code> method in Java, or the <code>Main</code> method in C#. It's where the action starts.</p>
+<h1 id="line-2">Line 2</h1>
+<pre><code>  new create(env: Env) =&gt;
+</code></pre>
+
+<p>This is a <strong>constructor</strong>. The keyword <code>new</code> means it's a function that creates a new instance of the type. In this case, it creates a new <strong>Main</strong>.</p>
+<p>Unlike other languages, constructors in Pony have names. That means there can be more than one way to construct an instance of a type. In this case, the name of the constructor is <code>create</code>.</p>
+<p>The parameters of a function come next. In this case, our constructor has a single parameter called <code>env</code> that is of the type <code>Env</code>.</p>
+<p>In Pony, the type of something always comes after its name, and is separated by a colon. In C, C++, Java or C#, you might say <code>Env env</code>, but we do it the other way around (like Go, Pascal, and a bunch of other languages).</p>
+<p>It turns out, our <code>Main</code> actor <strong>has</strong> to have a constructor called <code>create</code> that takes a single parameter of type <code>Env</code>. That's how all programs start! So the beginning of your program is essentially the body of that constructor.</p>
+<p><strong>Wait, what's the body?</strong> It's the code that comes after the <code>=&gt;</code>.</p>
+<h1 id="line-3">Line 3</h1>
+<pre><code>    env.out.print(&quot;Hello, world!&quot;)
+</code></pre>
+
+<p>This is your program! What the heck is it doing?</p>
+<p>In Pony a dot is a either a field access or a method call, much like other languages. If the name after the dot has parentheses after it, it's a method call. Otherwise, it's a field access.</p>
+<p>So here, we start with a reference to <code>env</code>. We then lookup the field <code>out</code> on our object <code>env</code>. As it happens, that field represents <strong>stdout</strong>, i.e. usually it means printing to your console. Then, we call the <code>print</code> method on <code>env.out</code>. The stuff inside the parentheses are the arguments to the function. In this case, we are passing a <strong>string literal</strong>, i.e. the stuff in double quotes.</p>
+<p>In Pony, string literals can be in double quotes, in which case they follow C/C++ style escaping (using stuff like \n), or they can be in "triple double" quotes, like a Python triple quoted string, in which case they are considered raw data.</p>
+<p><strong>What's an Env, anyway?</strong> It's the "environment" your program was invoked with. That means it has command line arguments, environment variables, <strong>stdin</strong>, <strong>stdout</strong>, and <strong>stderr</strong>. Pony has no global variables, so these things are explicitly passed to your program.</p>
+<h1 id="thats-it">That's it!</h1>
+<p>Really, that's it. The program begins by creating a <code>Main</code> actor, and in the constructor, we print "Hello, world!" to <strong>stdout</strong>.</p>
+
             </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../fields" class="btn btn-neutral float-right" title="Fields"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../whitespace" class="btn btn-neutral float-right" title="Whitespace"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../let-vs-var" class="btn btn-neutral" title="let vs. var"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../helloworld" class="btn btn-neutral" title="Helloworld"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -503,8 +550,8 @@
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
         
-      <span><a href="../let-vs-var" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../fields" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../helloworld" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../whitespace" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>

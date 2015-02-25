@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Parameters - Pony Tutorial</title>
+  <title>Actors - Pony Tutorial</title>
   
 
   
@@ -92,27 +92,49 @@
         <span>Types</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/static-vs-dynamic">Static vs dynamic</a>
+                    <a class="" href="../static-vs-dynamic">Static vs dynamic</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/classes">Classes</a>
+                    <a class="" href="../classes">Classes</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/primitives">Primitives</a>
+                    <a class="" href="../primitives">Primitives</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 current">
+                    <a class="current" href=".">Actors</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#behaviours">Behaviours</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#asynchronocity">Asynchronocity</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#parallelism">Parallelism</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#sequentiality">Sequentiality</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#why-is-this-safe">Why is this safe?</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#actors-are-cheap">Actors are cheap</a></li>
+                            
+                        
+                        </ul>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/actors">Actors</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../types/type-aliases">Type aliases</a>
+                    <a class="" href="../type-aliases">Type aliases</a>
                     
                 </li>
             
@@ -123,26 +145,22 @@
         <span>Variables</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../let-vs-var">let vs. var</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 current">
-                    <a class="current" href=".">Parameters</a>
-                    
-                        <ul>
-                        
-                        </ul>
+                    <a class="" href="../../variables/let-vs-var">let vs. var</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../fields">Fields</a>
+                    <a class="" href="../../variables/parameters">Parameters</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../literals">Literals</a>
+                    <a class="" href="../../variables/fields">Fields</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../variables/literals">Literals</a>
                     
                 </li>
             
@@ -458,7 +476,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../..">Docs</a> &raquo;</li>
-    <li>Parameters</li>
+    <li>Actors</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -467,17 +485,49 @@
 </div>
           <div role="main">
             <div class="section">
-              
+              <p>An <strong>actor</strong> is similar to a <strong>class</strong>, but there is one critical difference: an actor can have <strong>behaviours</strong>.</p>
+<h1 id="behaviours">Behaviours</h1>
+<p>A <strong>behaviour</strong> is like a <strong>function</strong>, but instead of being introduced with the keyword <code>fun</code>, it is introduced with the keyword <code>be</code>.</p>
+<p>Like a function, a behaviour can have parameters. Unlike a function, it doesn't have a receiver capability (a behaviour can be called on a receiver of any capability) and you can't specify a return type.</p>
+<pre><code>actor Aardvark
+  let name: String
+  var _hunger_level: U64 = 0
+
+  new create(name': String) =&gt;
+    name = name'
+
+  be eat(amount: U64) =&gt;
+    _hunger_level = (_hunger_level - amount).min(0)
+</code></pre>
+
+<p>Here we have an <code>Aardvark</code> that can eat asynchronously. Clever Aardvark.</p>
+<h1 id="asynchronocity">Asynchronocity</h1>
+<p>The difference between functions and behaviours is that functions are <em>synchronous</em> and behaviours are <em>asynchronous</em>. In other words, when you call a function, the body of the function is executed immediately, and the result of the call is the result of the body of the function. This is just like method invocation in any other object-oriented language.</p>
+<p>But when you call a behaviour, the body is <strong>not</strong> immediately executed. Instead, the body of the behaviour will execute at some indeterminate time in the future.</p>
+<p><strong>So what does a behaviour return?</strong> All behaviours always return the receiver. They can't return something they calculate (since they haven't run yet), so returning the receiver is a convenience to allow chaining calls on the receiver.</p>
+<h1 id="parallelism">Parallelism</h1>
+<p>Since behaviours are asynchronous, it's ok to run the body of a bunch of behaviours at the same time. This is exactly what Pony does. The Pony runtime has its own scheduler, which by default has a number of threads equal to the number of CPU cores on your machine. Each scheduler thread can be executing an actor behaviour at any given time, so Pony programs are naturally parallel.</p>
+<h1 id="sequentiality">Sequentiality</h1>
+<p>Actors themselves, however, are sequential. That is, each actor will only execute one behaviour at a time. This means all the code in an actor can be written without caring about concurrency: no need for locks or semaphores or anything like that.</p>
+<p>When you're writing Pony code, it's nice to think of actors not as a unit of parallelism, but as a unit of sequentiality. That is, an actor should do only what <em>has</em> to be done sequentially. Anything else can be broken out into another actor, making it automatically parallel.</p>
+<h1 id="why-is-this-safe">Why is this safe?</h1>
+<p>Because of Pony's <strong>capabilities secure type system</strong>. We've mentioned capabilities briefly before, when talking about function receiver capabilities. The short version is that they are annotations on a type that make all this parallelism safe without any runtime overhead.</p>
+<p>We will cover capabilities in depth later.</p>
+<h1 id="actors-are-cheap">Actors are cheap</h1>
+<p>If you've done concurrent programming before, you'll know that threads can be expensive. Context switches can cause problems, each thread needs a stack (which can be a lot of memory), and you need lots of locks and other mechanisms to write thread-safe code.</p>
+<p>But actors are cheap. Really cheap. They extra cost of an actor as opposed to an object is about 256 bytes of memory. Bytes, not kilobytes! And there are no locks and no context switches. An actor that isn't executing consumes no resources other than the few extra bytes of memory.</p>
+<p>It's pretty normal to write a Pony program that uses hundreds of thousands of actors.</p>
+
             </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../fields" class="btn btn-neutral float-right" title="Fields"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../type-aliases" class="btn btn-neutral float-right" title="Type aliases"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../let-vs-var" class="btn btn-neutral" title="let vs. var"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../primitives" class="btn btn-neutral" title="Primitives"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -503,8 +553,8 @@
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
         
-      <span><a href="../let-vs-var" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../fields" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../primitives" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../type-aliases" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>

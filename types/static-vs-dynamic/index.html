@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Parameters - Pony Tutorial</title>
+  <title>Static vs dynamic - Pony Tutorial</title>
   
 
   
@@ -91,28 +91,41 @@
         
         <span>Types</span>
             
-                <li class="toctree-l1 ">
-                    <a class="" href="../../types/static-vs-dynamic">Static vs dynamic</a>
+                <li class="toctree-l1 current">
+                    <a class="current" href=".">Static vs dynamic</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#whats-the-difference">What's the difference?</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#types-are-guarantees">Types are guarantees</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#what-guarantees-does-ponys-type-system-give-me">What guarantees does Pony's type system give me?</a></li>
+                            
+                        
+                        </ul>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/classes">Classes</a>
+                    <a class="" href="../classes">Classes</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/primitives">Primitives</a>
+                    <a class="" href="../primitives">Primitives</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/actors">Actors</a>
+                    <a class="" href="../actors">Actors</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../types/type-aliases">Type aliases</a>
+                    <a class="" href="../type-aliases">Type aliases</a>
                     
                 </li>
             
@@ -123,26 +136,22 @@
         <span>Variables</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../let-vs-var">let vs. var</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 current">
-                    <a class="current" href=".">Parameters</a>
-                    
-                        <ul>
-                        
-                        </ul>
+                    <a class="" href="../../variables/let-vs-var">let vs. var</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../fields">Fields</a>
+                    <a class="" href="../../variables/parameters">Parameters</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../literals">Literals</a>
+                    <a class="" href="../../variables/fields">Fields</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../variables/literals">Literals</a>
                     
                 </li>
             
@@ -458,7 +467,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../..">Docs</a> &raquo;</li>
-    <li>Parameters</li>
+    <li>Static vs dynamic</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -467,17 +476,40 @@
 </div>
           <div role="main">
             <div class="section">
-              
+              <p>Pony is a <em>statically typed</em> language, like Java, C#, C++, and many others. This means the compiler knows the type of everything in your program. This is different from <em>dynamically typed</em> languages, such as Python, Lua, Javascript, and Ruby.</p>
+<h1 id="whats-the-difference">What's the difference?</h1>
+<p>In both kinds of language, your data has a type. So what's the difference?</p>
+<p>With a <em>dynamically typed</em> language, a variable can point to objects of different types at different times. This is flexible, because if you have a variable <code>x</code>, you can assign an integer to it, then assign a string to it, and your compiler or interpreter doesn't complain.</p>
+<p><strong>But what if I try to do a string operation on <code>x</code> after assigning an integer to it?</strong> Generally speaking, your program will raise an error. You might be able to catch the error in some way, depending on the language, but if you don't, your program will crash.</p>
+<p>When you use a <em>statically typed</em> language, a variable has a type. That is, it can only point to objects of a certain type (although in Pony, a type can actually be a collection of types, as we'll see later). If you have an <code>x</code> that expects to point to an integer, you can't assign a string to it. Your compiler complains, and it complains <strong>before</strong> you ever try to run your program.</p>
+<h1 id="types-are-guarantees">Types are guarantees</h1>
+<p>When the compiler knows what types things are, it can make sure some things in your program work without you having to run it or test it. These things are the <em>guarantees</em> that a language's type system provides.</p>
+<p>The more powerful a type system is, the more things it can prove about your program without having to run it.</p>
+<p><strong>Do dynamic types make guarantees too?</strong> Yes, but they do it at runtime. For example, if you call a method that doesn't exist, you will usually get some kind of exception. But you'll only find out when you try to run your program.</p>
+<h1 id="what-guarantees-does-ponys-type-system-give-me">What guarantees does Pony's type system give me?</h1>
+<p>The Pony type system offers a lot of guarantees, even more than other statically typed languages.</p>
+<ul>
+<li>If your program compiles, it won't crash.</li>
+<li>There will never be an uncaught exception.</li>
+<li>There's no such thing as <code>null</code>, so your program will never try to dereference <code>null</code>.</li>
+<li>There will never be a data race.</li>
+<li>Your program will never deadlock.</li>
+<li>Your code will always be capabilities-secure.</li>
+<li>All message passing is causal.</li>
+</ul>
+<p>Some of those will make sense right now. Some of them may not mean much to you yet (like capabilities security and causal messaging), but we'll get to those concepts later on.</p>
+<p><strong>If I use Pony's FFI to call code written in another language, does Pony magically make the same guarantees for the code I call?</strong> Sadly, no. Pony's type system guarantees only apply to code written in Pony. Code written in other languages gets only the guarantees provided by that language.</p>
+
             </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../fields" class="btn btn-neutral float-right" title="Fields"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../classes" class="btn btn-neutral float-right" title="Classes"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../let-vs-var" class="btn btn-neutral" title="let vs. var"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../getting-started/whitespace" class="btn btn-neutral" title="Whitespace"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -503,8 +535,8 @@
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
         
-      <span><a href="../let-vs-var" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../fields" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../../getting-started/whitespace" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../classes" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>
