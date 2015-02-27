@@ -112,7 +112,28 @@
                 </li>
             
                 <li class="toctree-l1 ">
+                    <a class="" href="types/traits-and-interfaces/">Traits and interfaces</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
                     <a class="" href="types/type-aliases/">Type aliases</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="types/type-expressions/">Type expressions</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Capabilities</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="capabilities/introduction/">Introduction</a>
                     
                 </li>
             
@@ -123,22 +144,7 @@
         <span>Variables</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="variables/let-vs-var/">let vs. var</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="variables/parameters/">Parameters</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="variables/fields/">Fields</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="variables/literals/">Literals</a>
+                    <a class="" href="variables/variables/">Variables</a>
                     
                 </li>
             
@@ -146,25 +152,10 @@
 
     
         
-        <span>Basic control structures</span>
+        <span>Control structures</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="control-structures/conditionals/">Conditionals</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="control-structures/operator-precedence/">Operator precedence</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="control-structures/loops/">Loops</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="control-structures/expressions-everywhere/">Expressions</a>
+                    <a class="" href="control-structures/control-structures/">Control structures</a>
                     
                 </li>
             
@@ -220,22 +211,6 @@
 
     
         
-        <span>Traits and Interfaces</span>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="traits-interfaces/traits/">Traits</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="traits-interfaces/interfaces/">Interfaces</a>
-                    
-                </li>
-            
-        
-
-    
-        
         <span>Packages</span>
             
                 <li class="toctree-l1 ">
@@ -272,27 +247,6 @@
             
                 <li class="toctree-l1 ">
                     <a class="" href="composition-inheritance/code-sharing/">Code sharing</a>
-                    
-                </li>
-            
-        
-
-    
-        
-        <span>Algebraic types</span>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="algebraic-types/union/">Union</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="algebraic-types/intersection/">Intersection</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="algebraic-types/tuple/">Tuple</a>
                     
                 </li>
             
@@ -475,7 +429,7 @@
 <li>It's type safe. Really type safe. There's a mathematical proof and everything.</li>
 <li>It's memory safe. Ok, this comes with type safe, but it's still interesting. There are no dangling pointers, no buffer overruns, heck, the language doesn't even have the concept of <em>null</em>!</li>
 <li>It's exception safe. There are no runtime exceptions. All exceptions have defined semantics, and they are <em>always</em> caught.</li>
-<li>It's data-race free. Pony doesn't have locks or atomic operations or anything like that. Instead, the type system ensure <em>at compile-time</em> that your concurrent program can never have data-races. So you can write highly concurrent code and never get it wrong.</li>
+<li>It's data-race free. Pony doesn't have locks or atomic operations or anything like that. Instead, the type system ensures <em>at compile time</em> that your concurrent program can never have data races. So you can write highly concurrent code and never get it wrong.</li>
 <li>It's deadlock free. This one is easy, because Pony has no locks at all! So they definitely don't deadlock, because they don't exist.</li>
 </ul>
 

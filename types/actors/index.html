@@ -114,13 +114,10 @@
                             <li class="toctree-l2"><a href="#behaviours">Behaviours</a></li>
                             
                         
-                            <li class="toctree-l2"><a href="#asynchronocity">Asynchronocity</a></li>
+                            <li class="toctree-l2"><a href="#concurrent">Concurrent</a></li>
                             
                         
-                            <li class="toctree-l2"><a href="#parallelism">Parallelism</a></li>
-                            
-                        
-                            <li class="toctree-l2"><a href="#sequentiality">Sequentiality</a></li>
+                            <li class="toctree-l2"><a href="#sequential">Sequential</a></li>
                             
                         
                             <li class="toctree-l2"><a href="#why-is-this-safe">Why is this safe?</a></li>
@@ -134,7 +131,28 @@
                 </li>
             
                 <li class="toctree-l1 ">
+                    <a class="" href="../traits-and-interfaces">Traits and interfaces</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
                     <a class="" href="../type-aliases">Type aliases</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../type-expressions">Type expressions</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Capabilities</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../capabilities/introduction">Introduction</a>
                     
                 </li>
             
@@ -145,22 +163,7 @@
         <span>Variables</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../variables/let-vs-var">let vs. var</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../variables/parameters">Parameters</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../variables/fields">Fields</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../variables/literals">Literals</a>
+                    <a class="" href="../../variables/variables">Variables</a>
                     
                 </li>
             
@@ -168,25 +171,10 @@
 
     
         
-        <span>Basic control structures</span>
+        <span>Control structures</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../control-structures/conditionals">Conditionals</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../control-structures/operator-precedence">Operator precedence</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../control-structures/loops">Loops</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../control-structures/expressions-everywhere">Expressions</a>
+                    <a class="" href="../../control-structures/control-structures">Control structures</a>
                     
                 </li>
             
@@ -242,22 +230,6 @@
 
     
         
-        <span>Traits and Interfaces</span>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../traits-interfaces/traits">Traits</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../traits-interfaces/interfaces">Interfaces</a>
-                    
-                </li>
-            
-        
-
-    
-        
         <span>Packages</span>
             
                 <li class="toctree-l1 ">
@@ -294,27 +266,6 @@
             
                 <li class="toctree-l1 ">
                     <a class="" href="../../composition-inheritance/code-sharing">Code sharing</a>
-                    
-                </li>
-            
-        
-
-    
-        
-        <span>Algebraic types</span>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../algebraic-types/union">Union</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../algebraic-types/intersection">Intersection</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../algebraic-types/tuple">Tuple</a>
                     
                 </li>
             
@@ -485,10 +436,13 @@
 </div>
           <div role="main">
             <div class="section">
-              <p>An <strong>actor</strong> is similar to a <strong>class</strong>, but there is one critical difference: an actor can have <strong>behaviours</strong>.</p>
+              <p>An <strong>actor</strong> is similar to a <strong>class</strong>, but with one critical difference: an actor can have <strong>behaviours</strong>.</p>
 <h1 id="behaviours">Behaviours</h1>
-<p>A <strong>behaviour</strong> is like a <strong>function</strong>, but instead of being introduced with the keyword <code>fun</code>, it is introduced with the keyword <code>be</code>.</p>
+<p>A <strong>behaviour</strong> is like a <strong>function</strong>, except that functions are <em>synchronous</em> and behaviours are <em>asynchronous</em>. In other words, when you call a function, the body of the function is executed immediately, and the result of the call is the result of the body of the function. This is just like method invocation in any other object-oriented language.</p>
+<p>But when you call a behaviour, the body is <strong>not</strong> executed immediately. Instead, the body of the behaviour will execute at some indeterminate time in the future.</p>
+<p>A behaviour looks like a function, but instead of being introduced with the keyword <code>fun</code>, it is introduced with the keyword <code>be</code>.</p>
 <p>Like a function, a behaviour can have parameters. Unlike a function, it doesn't have a receiver capability (a behaviour can be called on a receiver of any capability) and you can't specify a return type.</p>
+<p><strong>So what does a behaviour return?</strong> All behaviours always return the receiver. They can't return something they calculate (since they haven't run yet), so returning the receiver is a convenience to allow chaining calls on the receiver.</p>
 <pre><code>actor Aardvark
   let name: String
   var _hunger_level: U64 = 0
@@ -497,17 +451,13 @@
     name = name'
 
   be eat(amount: U64) =&gt;
-    _hunger_level = (_hunger_level - amount).min(0)
+    _hunger_level = _hunger_level - amount.min(_hunger_level)
 </code></pre>
 
 <p>Here we have an <code>Aardvark</code> that can eat asynchronously. Clever Aardvark.</p>
-<h1 id="asynchronocity">Asynchronocity</h1>
-<p>The difference between functions and behaviours is that functions are <em>synchronous</em> and behaviours are <em>asynchronous</em>. In other words, when you call a function, the body of the function is executed immediately, and the result of the call is the result of the body of the function. This is just like method invocation in any other object-oriented language.</p>
-<p>But when you call a behaviour, the body is <strong>not</strong> immediately executed. Instead, the body of the behaviour will execute at some indeterminate time in the future.</p>
-<p><strong>So what does a behaviour return?</strong> All behaviours always return the receiver. They can't return something they calculate (since they haven't run yet), so returning the receiver is a convenience to allow chaining calls on the receiver.</p>
-<h1 id="parallelism">Parallelism</h1>
-<p>Since behaviours are asynchronous, it's ok to run the body of a bunch of behaviours at the same time. This is exactly what Pony does. The Pony runtime has its own scheduler, which by default has a number of threads equal to the number of CPU cores on your machine. Each scheduler thread can be executing an actor behaviour at any given time, so Pony programs are naturally parallel.</p>
-<h1 id="sequentiality">Sequentiality</h1>
+<h1 id="concurrent">Concurrent</h1>
+<p>Since behaviours are asynchronous, it's ok to run the body of a bunch of behaviours at the same time. This is exactly what Pony does. The Pony runtime has its own scheduler, which by default has a number of threads equal to the number of CPU cores on your machine. Each scheduler thread can be executing an actor behaviour at any given time, so Pony programs are naturally concurrent.</p>
+<h1 id="sequential">Sequential</h1>
 <p>Actors themselves, however, are sequential. That is, each actor will only execute one behaviour at a time. This means all the code in an actor can be written without caring about concurrency: no need for locks or semaphores or anything like that.</p>
 <p>When you're writing Pony code, it's nice to think of actors not as a unit of parallelism, but as a unit of sequentiality. That is, an actor should do only what <em>has</em> to be done sequentially. Anything else can be broken out into another actor, making it automatically parallel.</p>
 <h1 id="why-is-this-safe">Why is this safe?</h1>
@@ -524,7 +474,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../type-aliases" class="btn btn-neutral float-right" title="Type aliases"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../traits-and-interfaces" class="btn btn-neutral float-right" title="Traits and interfaces"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../primitives" class="btn btn-neutral" title="Primitives"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -554,7 +504,7 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
         
       <span><a href="../primitives" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../type-aliases" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span style="margin-left: 15px"><a href="../traits-and-interfaces" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>
