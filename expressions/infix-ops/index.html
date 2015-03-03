@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Using a package - Pony Tutorial</title>
+  <title>Infix ops - Pony Tutorial</title>
   
 
   
@@ -160,42 +160,58 @@
         <span>Expressions</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../expressions/variables">Variables</a>
+                    <a class="" href="../variables">Variables</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 current">
+                    <a class="current" href=".">Infix ops</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#precedence">Precedence</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#operator-aliasing">Operator aliasing</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#short-circuiting">Short circuiting</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#unary-operators">Unary operators</a></li>
+                            
+                        
+                        </ul>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../expressions/infix-ops">Infix ops</a>
+                    <a class="" href="../control-structures">Control structures</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../expressions/control-structures">Control structures</a>
+                    <a class="" href="../methods">Methods</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../expressions/methods">Methods</a>
+                    <a class="" href="../exceptions">Exceptions</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../expressions/exceptions">Exceptions</a>
+                    <a class="" href="../sugar">Sugar</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../expressions/sugar">Sugar</a>
+                    <a class="" href="../object-literals">Object literals</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../expressions/object-literals">Object literals</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../expressions/partial-application">Partial application</a>
+                    <a class="" href="../partial-application">Partial application</a>
                     
                 </li>
             
@@ -232,21 +248,17 @@
         <span>Packages</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../package-system">Package system</a>
+                    <a class="" href="../../packages/package-system">Package system</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../builtin">Builtin</a>
+                    <a class="" href="../../packages/builtin">Builtin</a>
                     
                 </li>
             
-                <li class="toctree-l1 current">
-                    <a class="current" href=".">Using a package</a>
-                    
-                        <ul>
-                        
-                        </ul>
+                <li class="toctree-l1 ">
+                    <a class="" href="../../packages/use-statement">Using a package</a>
                     
                 </li>
             
@@ -403,7 +415,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../..">Docs</a> &raquo;</li>
-    <li>Using a package</li>
+    <li>Infix ops</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -412,17 +424,106 @@
 </div>
           <div role="main">
             <div class="section">
-              
+              <p>Infix operators take two operands and are written between those operands. Arithmetic and comparison operators are the most common:</p>
+<pre><code>1 + 2
+a &lt; b
+</code></pre>
+
+<p>Pony has pretty much the same set of infix operators as other langauges.</p>
+<h1 id="precedence">Precedence</h1>
+<p>When using infix operators in complex expressions a key question is the <strong>precedence</strong>, i.e. which operator is evaluated first. Given this expression:</p>
+<pre><code>1 + 2 * 3
+</code></pre>
+
+<p>We will get a value of 9 if we evaluate the addition first and 7 if we evaluate the multiplication first. In mathematics there are rules about the order in which to evaluate operators and most programming languages follow this approach.</p>
+<p>The problem with this is that the programmer has to remember the order and people aren't very good at things like that. Most people will remember to do multiplication before addition, but what about left bit shifting versus bitwise and? Sometimes people misremember (or guess wrong) and that leads to bugs. Worse, those bugs are often very hard to spot.</p>
+<p>Pony takes a different approach and outlaws infix precedence. Any expression where more than one infix operator is used <strong>must</strong> use parentheses to remove the ambiguity. If you failure to do this the compiler will complain.</p>
+<p>This means that the example above is illegal in Pony and should be rewritten as:</p>
+<pre><code>1 + (2 * 3)
+</code></pre>
+
+<p>Repeated use of a single operator however is fine:</p>
+<pre><code>1 + 2 + 3
+</code></pre>
+
+<h1 id="operator-aliasing">Operator aliasing</h1>
+<p>Most infix operators in Pony are actually aliases for functions. The left operand is the receiver the function is called on and the right operand is passed as an argument. For example the following expressions are equivalent:</p>
+<pre><code>x + y
+x.add(y)
+</code></pre>
+
+<p>This means that <code>+</code> is not a special symbol that can only be applied to magic types. Any type can provide its own <code>add</code> function and the programmer can then use <code>+</code> with that type, if they want to.</p>
+<p>When defining your own <code>add</code> function there is no restriction on the types of the parameter or the return type. The right side of the <code>+</code> will have to match the parameter type and the whole <code>+</code> expression will have the type that <code>add</code> returns.</p>
+<p>Here's a full example for defining a type which allows use of <code>+</code>. This is all you need:</p>
+<pre><code>// Define a suitable type
+class Pair
+  var _x: U32 = 0
+  var _y: U32 = 0
+
+  new create(x: U32, y: U32) =&gt;
+    _x = x
+    _y = y
+
+  // Define a + function
+  fun add(other: Pair): Pair =&gt;
+    Pair(_x + other._x, _y + other._y)
+
+// Now let's use it
+class Foo
+  fun foo() =&gt;
+    var x = Pair(1, 2)
+    var y = Pair(3, 4)
+    var z = x + y
+</code></pre>
+
+<p>Since Pony does not allow overloading of functions by argument type, each type can only have a single <code>add</code> function. It is possible to overload infix operators to some degree using union types or f-bounded polymorphism, but this is beyond the scope of this tutorial. See the Pony standard library for further information.</p>
+<p>You do not have to worry about any of this if you don't want to. You can simply use the existing infix operators for numbers just like any other language and not provide them for your own types.</p>
+<p>The full list of infix operators that are aliases for functions is:</p>
+<pre><code>+    add()      Addition
+-    sub()      Subtraction
+*    mul()      Multiplication
+/    div()      Division
+%    mod()      Modulus
+&lt;&lt;   shl()      Left bit shift
+&gt;&gt;   shr()      Right bit shift
+and  op_and()   And, both bitwise and logical
+or   op_or()    Or, both bitwise and logical
+xor  op_xor()   Xor, both bitwise and logical
+==   eq()       Equality
+!=   ne()       Non-equality
+&lt;    lt()       Less then
+&lt;=   le()       Less than or equal
+&gt;=   ge()       Greater than or equal
+&gt;    gt()       Greater than
+</code></pre>
+
+<h1 id="short-circuiting">Short circuiting</h1>
+<p>The <code>and</code> and <code>or</code> operators use <strong>short circuiting</strong> when used with Bool operators. This means that the first operand is always evaluated, but the second is only evaluated if it can affect the result.</p>
+<p>For <code>and</code>, if the first operand is <strong>false</strong> then the second operand is not evaluated, since it cannot affect the result.</p>
+<p>For <code>or</code>, if the first operand is <strong>true</strong> then the second operand is not evaluated, since it cannot affect the result.</p>
+<p>This is a special feature built into the compiler, it cannot be used with operator aliasing for any other type.</p>
+<h1 id="unary-operators">Unary operators</h1>
+<p>The unary operators are handled in the same manor, but with only one operand. For example the following expressions are equivalent:</p>
+<pre><code>-x
+x.neg()
+</code></pre>
+
+<p>The full list of unary operators that are aliases for functions is:</p>
+<pre><code>-    neg()      Arithmetic negation
+!    op_not()   Not, both bitwise and logical
+</code></pre>
+
+
             </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../../composition-inheritance/code-sharing" class="btn btn-neutral float-right" title="Code sharing"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../control-structures" class="btn btn-neutral float-right" title="Control structures"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../builtin" class="btn btn-neutral" title="Builtin"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../variables" class="btn btn-neutral" title="Variables"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -448,8 +549,8 @@
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
         
-      <span><a href="../builtin" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../../composition-inheritance/code-sharing" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../variables" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../control-structures" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>

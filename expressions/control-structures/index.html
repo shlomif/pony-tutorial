@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Control structures - Pony Tutorial</title>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  <link href="../../css/theme_extra.css" rel="stylesheet">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script src="../../js/theme.js"></script>
+
+  <style>
+    body {font-size: 90%;}
+    pre, code {font-size: 100%;}
+    h3, h4, h5, h6 {color: #2980b9; font-weight: 300}
+  </style> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Pony Tutorial</a>
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <ul class="current">
+    
+        
+        <span>Installation</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../installation/mac-osx">Mac OSX</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../installation/linux">Linux</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../installation/windows">Windows</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Getting started</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../getting-started/what-you-need-to-start">What you need to start</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../getting-started/helloworld">Helloworld</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../getting-started/how-it-works">How it works</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../getting-started/whitespace">Whitespace</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Types</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../types/static-vs-dynamic">Static vs dynamic</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../types/classes">Classes</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../types/primitives">Primitives</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../types/actors">Actors</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../types/traits-and-interfaces">Traits and interfaces</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../types/type-aliases">Type aliases</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../types/type-expressions">Type expressions</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Capabilities</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../capabilities/type-qualifiers">Type qualifiers</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../capabilities/guarantees">Guarantees</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../capabilities/aliasing">Aliasing</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../capabilities/passing-and-sharing">Passing and sharing</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Expressions</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../variables">Variables</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../infix-ops">Infix ops</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 current">
+                    <a class="current" href=".">Control structures</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#conditionals">Conditionals</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#everything-is-an-expression">Everything is an expression</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#loops">Loops</a></li>
+                            
+                                <li><a class="toctree-l3" href="#while">While</a></li>
+                            
+                                <li><a class="toctree-l3" href="#break">Break</a></li>
+                            
+                                <li><a class="toctree-l3" href="#continue">Continue</a></li>
+                            
+                                <li><a class="toctree-l3" href="#for">For</a></li>
+                            
+                                <li><a class="toctree-l3" href="#repeat">Repeat</a></li>
+                            
+                        
+                        </ul>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../methods">Methods</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../exceptions">Exceptions</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../sugar">Sugar</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../object-literals">Object literals</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../partial-application">Partial application</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Actors</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../actors/behaviours">Behaviours</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../actors/capabilities">Capabilities</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../actors/recover-and-consume">recover and consume</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../actors/arrow-types">Arrow types</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Packages</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../packages/package-system">Package system</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../packages/builtin">Builtin</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../packages/use-statement">Using a package</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Composition vs. inheritance</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../composition-inheritance/code-sharing">Code sharing</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Generics</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../generics/polymorphic-types">Polymorphic types</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../generics/polymorphic-methods">Polymorphic methods</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Pattern matching</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../pattern-matching/match">match-expression</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../pattern-matching/as">as-expression</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Platform</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../platform/platform">Platform</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Editor support</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../editor-plugins/plugins">Plugins</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Compiler options</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../compiler-clargs/clargs">Overview</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Patterns</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../patterns/patterns">Patterns</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Garbage collection</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../garbage-collection/garbage-collection">Garbage collection</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>C-FFI</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../c-ffi/calling-c">Calling C programs</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../c-ffi/linking-c">Linking to C libraries</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../c-ffi/c-abi">Exposing a C-ABI</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Examples</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../examples/examples">Examples</a>
+                    
+                </li>
+            
+        
+
+    
+</ul>
+
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="../.."></a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    <li>Control structures</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              <p>To do real work in a program you have to be able to make decisions, iterate through collections of items and perform actions repeatedly. For this you need control structures. Pony has control structures that will be familiar to programmers who have used most languages, such as <code>if</code>, <code>while</code> and <code>for</code>, but in Pony they work slightly differently.</p>
+<h1 id="conditionals">Conditionals</h1>
+<p>The simplest control-structure is the good old <code>if</code>. It allows you to perform some action only when a condition is true. In Pony it looks like this:</p>
+<pre><code>if a &gt; b then
+  env.out.print(&quot;a is bigger&quot;)
+end
+</code></pre>
+
+<p><strong>Can I use integers and pointers for the condition like I can in C?</strong> No. In Pony <code>if</code> conditions must have type Bool, i.e. they are always true or false. If you want to test whether a number <code>a</code> is not 0, then you need to explicitly say <code>a != 0</code>. This restriction removes a whole category of potential bugs from Pony programs.</p>
+<p>If you want some alternative code for when the condition fails just add an <code>else</code>:</p>
+<pre><code>if a &gt; b then
+  env.out.print(&quot;a is bigger&quot;)
+else
+  env.out.print(&quot;a is not bigger&quot;)
+end
+</code></pre>
+
+<p>Often you want to test more than condition in one go, giving you more than two possible outcomes. You can nest <code>if</code> statements, but this quickly gets ugly:</p>
+<pre><code>if a == b then
+  env.out.print(&quot;they are the same&quot;)
+else
+  if a &gt; b then
+    env.out.print(&quot;a is bigger&quot;)
+  else
+    env.out.print(&quot;b bigger&quot;)
+  end
+end
+</code></pre>
+
+<p>As an alternative Pony provides the <code>elseif</code> keyword that combines an <code>else</code> and an <code>if</code>. This works the same as saying <code>else if</code> in other languages and you can have as many <code>elseif</code>s as you like for each <code>if</code>.</p>
+<pre><code>if a == b then
+  env.out.print(&quot;they are the same&quot;)
+elseif a &gt; b then
+  env.out.print(&quot;a is bigger&quot;)
+else
+  env.out.print(&quot;b bigger&quot;)
+end
+</code></pre>
+
+<p><strong>Why can't I just say "else if" like I do in C? Why the extra keyword?</strong> The relationship between <code>if</code> and <code>else</code> in C, and other similar languages, is ambiguous. For example:</p>
+<pre><code>// C code
+if(a)
+  if(b)
+    printf(&quot;a and b\n&quot;);
+else
+  printf(&quot;not a\n&quot;);
+</code></pre>
+
+<p>Here it is not obvious whether the <code>else</code> is an alternative to the first or the second <code>if</code>. In fact here the <code>else</code> relates to the <code>if(b)</code> so our example contains a bug. Pony avoids this type of bug by handling <code>if</code> and <code>else</code> differently and the need for <code>elseif</code> comes out of that.</p>
+<h1 id="everything-is-an-expression">Everything is an expression</h1>
+<p>The big difference for control structures between Pony and other languages is that in Pony everything is an expression. In languages like C++ and Java <code>if</code> is a statement, not an expression. This means that you can't have an <code>if</code> inside an expression, there has to be a separate conditional operator '?'.</p>
+<p>In Pony there are no statements there are only expressions, everything hands back a value. Your <code>if</code> statement hands you back a value. Your <code>for</code> loop (which we'll get to a bit later) hands you back a value. </p>
+<p>This means you can use <code>if</code> directly in a calculation:</p>
+<pre><code>x = 1 + if lots then 100 else 2 end
+</code></pre>
+
+<p>This will give <strong>x</strong> a value of either 3 or 101, depending on the variable <strong>lots</strong>.</p>
+<p>If the <code>then</code> and <code>else</code> branches of an <code>if</code> produce different types then the <code>if</code> produces a <strong>union</strong> of the two.</p>
+<pre><code>var x: (String | Bool) =
+  if friendly then
+    &quot;Hello&quot;
+  else
+    false
+  end
+</code></pre>
+
+<p><strong>But what if my if doesn't have an else?</strong> Any <code>else</code> branch that doesn't exist gives an implicit <code>None</code>.</p>
+<pre><code>var x: (String | None) =
+  if friendly then
+    &quot;Hello&quot;
+  end
+</code></pre>
+
+<p><strong>Does Pony still have the conditional operator "?"?</strong> No, it's not needed. Just use <code>if</code>.</p>
+<h1 id="loops">Loops</h1>
+<p><code>if</code> allows you to choose what to do, but to do something more than once you want a loop.</p>
+<h2 id="while">While</h2>
+<p>Pony <code>while</code> loops are very similar to those in other languages. A condition expression is evaluated and if it's true we execute the code inside the loop. When we're done we evaluate the condition again and keep going until it's false.</p>
+<p>Here's an example that prints out the numbers 1 to 10:</p>
+<pre><code>var count: U32 = 1
+
+while count &lt;= 10 do
+  env.out.print(count)
+  count = count + 1
+end
+</code></pre>
+
+<p>Just like <code>if</code> expressions <code>while</code> is also an expression. The value returned is just the value of the expression inside the loop the last time we go round it. For this example that will be the value given by <code>count = count + 1</code> when count is incremented to 11. Since Pony assignments hand back the <em>old</em> value our <code>while</code> loop will return 10.</p>
+<p><strong>But what if the condition evaluates to false the first time we try, then we don't go round the loop at all?</strong> In Pony <code>while</code> expressions can also have an <code>else</code> block. In general, Pony <code>else</code> blocks provide a value when the expression they are attached to doesn't. A <code>while</code> doesn't have a value to give if the condition evaluates to false the first time, so the <code>else</code> provides it instead.</p>
+<p><strong>So is this like an else block on a while loop in Python?</strong> No, this is very different. In Python the <code>else</code> is run when the <code>while</code> completes. In Pony the <code>else</code> is only run when the expression in the <code>while</code> isn't.</p>
+<h2 id="break">Break</h2>
+<p>Sometimes you want to stop part-way through a loop and give up altogether. Pony has the <code>break</code> keyword for this and it is very similar to its counterpart in langauges like C++, C# and Python.</p>
+<p><code>break</code> immediately exits from the innermost loop it's in. Since the loop has to return a value <code>break</code> can take an expression. This is optional and if it's missed out a value of <code>None</code> is returned.</p>
+<p>Let's have an example. Suppose you want to go through a list of names you're getting from somewhere, looking for either "Jack" or "Jill". If neither of those appear you'll just take the last name you're given and if you're not given any names at all you'll use "Herbert".</p>
+<pre><code>var name =
+  while moreNames() do
+    var name' = getName()
+    if name' == &quot;Jack&quot; or name' == &quot;Jill&quot; then
+      break name'
+    end
+    name'
+  else
+    &quot;Herbert&quot;
+  end
+</code></pre>
+
+<p>So first we ask if there are any more names to get. If there are then we get a name and see if it's "Jack" or "Jill". If it is we're done and we break out of the loop, handing back the name we've found. If not we try again.</p>
+<p>The line <code>name'</code> appears at the end of the loop so that will be our value returned from the last iteration, if neither "Jack" nor "Jill" is found.</p>
+<p>The <code>else</code> block provides our value of "Herbert" if there are no names available at all.</p>
+<p><strong>Can I break out of multiple, nested loops like the Java labelled break?</strong> No, Pony does not support that. If you need to break out of multiple loops you should probably refactor your code or use a worker function.</p>
+<h2 id="continue">Continue</h2>
+<p>Sometimes you want to stop part-way through one loop iteration and move onto the next. Like other languages Pony uses the <code>continue</code> keywords for this.</p>
+<p><code>continue</code> stops executing the current iteration of the innermost loop it's in and evaluates the condition ready for the next iteration.</p>
+<p>If <code>continue</code> is executed during the last iteration of the loop then we have no value to return from the loop. In this case we use the loop's <code>else</code> expression to get a value. As with the <code>if</code> expression if no <code>else</code> expression is provided <code>None</code> is returned.</p>
+<p><strong>Can I continue an outer, nested loop like the Java labelled continue?</strong> No, Pony does not support that. If you need to continue an outer loop you should probably refactor your code.</p>
+<h2 id="for">For</h2>
+<p>For iterating over a collection of items Pony uses the <code>for</code> keyword. This is very similar to <code>foreach</code> in C#, <code>for</code>..<code>in</code> in Python and <code>for</code> in Java when used with a collection. It is very different to <code>for</code> in C and C++.</p>
+<p>The Pony <code>for</code> loop iterates over a collection of items using an iterator. On each iteration round the loop we ask the iterator if there are any more elements to process and if there are we ask it for the next one.</p>
+<p>For example to print out all the strings in an array:</p>
+<pre><code>for name in [&quot;Bob&quot;, &quot;Fred&quot;, &quot;Sarah&quot;].values() do
+  env.out.print(name)
+end
+</code></pre>
+
+<p>Note the call to <code>values()</code> on the array, this is because the loop needs an iterator not an array.</p>
+<p>The iterator does not have to be of any particular type, but needs to provide the following methods:</p>
+<pre><code>  fun has_next(): Bool
+  fun next(): T?
+</code></pre>
+
+<p>where T is the type of the objects in the collection. You don't need to worry about this unless you're writing your own iterators. To use existing collections, such as those provided in the standard library, you can just use <code>for</code> and it will all work. If you do write your own iterators note that we use structural typing, so your iterator doesn't need to declare that it provides any particular type.</p>
+<p>You can think of the above example as being equivalent to:</p>
+<pre><code>let iterator = [&quot;Bob&quot;, &quot;Fred&quot;, &quot;Sarah&quot;].values()
+while iterator.has_next() do
+  let name = iterator.next()
+  env.out.print(name)
+end
+</code></pre>
+
+<p>Note that the variable <strong>name</strong> is declared <em>let</em>, you cannot assign to the control variable within the loop.</p>
+<p><strong>Can I use break and continue with for loops?</strong> Yes, <code>for</code> loops can have <code>else</code> expressions attached and can use <code>break</code> and <code>continue</code> just as for <code>while</code>.</p>
+<h2 id="repeat">Repeat</h2>
+<p>The final loop construct that Pony provides is <code>repeat</code> <code>until</code>. Here we evaluate the expression in the loop and then evaluate a condition expression to see if we're done or we should go round again.</p>
+<p>This is similar to <code>do</code> <code>while</code> in C++, C# and Java except that the termination condition is reversed, i.e. those languages terminate the loop when the condition expression is false, Pony terminates the loop when the condition expression is true.</p>
+<p>The differences between <code>while</code> and <code>repeat</code> in Pony are:</p>
+<ol>
+<li>We always go round the loop at least once with <code>repeat</code>, whereas with <code>while</code> we may not go round at all.</li>
+<li>The termination condition is reversed.</li>
+</ol>
+<p>Suppose we're trying to create something and we want to keep trying until it's good enough:</p>
+<pre><code>repeat
+  var present = makePresent()
+until present.marksOutOfTen() &gt; 7 end
+</code></pre>
+
+<p>Just like <code>while</code> loops the value given by a <code>repeat</code> loop is the value of the expression within the loop on the last iteration and <code>break</code> and <code>continue</code> can be used.</p>
+<p><strong>Since you always go round a repeat loop at least once do you ever need to give it an else expression?</strong> Yes you may need to. A <code>continue</code> in the last iteration of a <code>repeat</code> loop needs to get a value from somewhere and an <code>else</code> expression is used for that.</p>
+
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../methods" class="btn btn-neutral float-right" title="Methods"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../infix-ops" class="btn btn-neutral" title="Infix ops"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+    <!-- Copyright etc -->
+    </p>
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        
+      <span><a href="../infix-ops" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../methods" style="color: #fcfcfc">Next &raquo;</a></span>
+    </span>
+</div>
+</body>
+</html>

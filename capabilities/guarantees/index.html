@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Using a package - Pony Tutorial</title>
+  <title>Guarantees - Pony Tutorial</title>
   
 
   
@@ -134,22 +134,38 @@
         <span>Capabilities</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/type-qualifiers">Type qualifiers</a>
+                    <a class="" href="../type-qualifiers">Type qualifiers</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 current">
+                    <a class="current" href=".">Guarantees</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#what-is-denied">What is denied</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#mutable-capabilities">Mutable capabilities</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#immutable-capabilities">Immutable capabilities</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#opaque-capabilities">Opaque capabilities</a></li>
+                            
+                        
+                        </ul>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/guarantees">Guarantees</a>
+                    <a class="" href="../aliasing">Aliasing</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/aliasing">Aliasing</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/passing-and-sharing">Passing and sharing</a>
+                    <a class="" href="../passing-and-sharing">Passing and sharing</a>
                     
                 </li>
             
@@ -232,21 +248,17 @@
         <span>Packages</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../package-system">Package system</a>
+                    <a class="" href="../../packages/package-system">Package system</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../builtin">Builtin</a>
+                    <a class="" href="../../packages/builtin">Builtin</a>
                     
                 </li>
             
-                <li class="toctree-l1 current">
-                    <a class="current" href=".">Using a package</a>
-                    
-                        <ul>
-                        
-                        </ul>
+                <li class="toctree-l1 ">
+                    <a class="" href="../../packages/use-statement">Using a package</a>
                     
                 </li>
             
@@ -403,7 +415,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../..">Docs</a> &raquo;</li>
-    <li>Using a package</li>
+    <li>Guarantees</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -412,17 +424,42 @@
 </div>
           <div role="main">
             <div class="section">
-              
+              <p>Since types are guarantees, it's useful to talk about what guarantees a capability makes.</p>
+<h1 id="what-is-denied">What is denied</h1>
+<p>We're going to talk about capability guarantees in terms of what's <em>denied</em>. By this, we mean: what can other variables <em>not</em> do when you have a variable with a certain capability?</p>
+<p>We need to distinguish between the actor that contains the variable in question and <em>other</em> actors.</p>
+<p>This is important because data reads and writes from other actors may occur concurrently. If two actors can both read the same data and one of them changes it then it will change under the feet of the other actor. This leads to data-races and the need for locks. By ensuring this situation can never occur Pony eliminates the need for locks.</p>
+<p>All code within any one actor always executes concurrently. This means that data accesses from multiple variables within a single actor do not suffer from data-races.</p>
+<h1 id="mutable-capabilities">Mutable capabilities</h1>
+<p>The <strong>mutable</strong> capabilities are <code>iso</code>, <code>trn</code> and <code>ref</code>. These capabilities are <strong>mutable</strong> because they can be used to both read from and write to an object.</p>
+<ul>
+<li>If an actor has an <code>iso</code> variable, no other variable can be used by <em>any</em> actor to read from or write to that object. This means an <code>iso</code> variable is the only variable anywhere in the program that can read from or write to that object. It is <em>read and write unique</em>.</li>
+<li>If an actor has a <code>trn</code> variable, no other variable can be used by <em>any</em> actor to write to that object, and no other variable can be used by <em>other</em> actors to read from or write to that object. This means a <code>trn</code> variable is the only variable anywhere in the program that can write to that object, but other variables held by the the same actor may be able to read from it. Is is <em>write unique</em>.</li>
+<li>If an actor has a <code>ref</code> variable, no other variable can be used by <em>other</em> actors to read from or write to that object. This means that other variables can be used to read from and write to the object, but only from within the same actor.</li>
+</ul>
+<p><strong>Why can they be used to write?</strong> Because they all stop <em>other</em> actors from reading from or writing to the object. Since we know no other actor will be reading, it's safe for us to write to the object, without having to worry about data-races. And since we know no other actor will be writing, it's safe for us to read from the object, too.</p>
+<h1 id="immutable-capabilities">Immutable capabilities</h1>
+<p>The <strong>immutable</strong> capabilities are <code>val</code> and <code>box</code>. These capabilities are <strong>immutable</strong> because they can be used to read from an object, but not to write to it.</p>
+<ul>
+<li>If an actor has a <code>val</code> variable, no other variable can be used by <em>any</em> actor to write to that object. This means that the object can't <em>ever</em> change. It is <em>globally immutable</em>.</li>
+<li>If an actor has a <code>box</code> variable, no other variable can be used by <em>other</em> actors to write to that object. This means that other actors may be able to read the object and other variables in the same actor may be able to write to it (although not both). In either case it is safe for us to read. The object is <em>locally immutable</em>.</li>
+</ul>
+<p><strong>Why can they be used to read but not write?</strong> Because these capabilities only stop <em>other</em> actors from writing to the object. That means there is no guarantee that <em>other</em> actors aren't reading from the object, which means it's not safe for us to write to it. It's safe for more than one actor to read from an object at the same time though, so we're allowed to do that.</p>
+<h1 id="opaque-capabilities">Opaque capabilities</h1>
+<p>There's only one <strong>opaque</strong> capability, which is <code>tag</code>. A <code>tag</code> variable makes no guarantees about other variables at all. As a result, it can't be used to either read from or write to the object.</p>
+<p>It's still useful though: you can do identity comparison with it, you can call behaviours on it, and you can call functions on it that only need a <code>tag</code> receiver.</p>
+<p><strong>Why can't <code>tag</code> be used to read or write?</strong> Because <code>tag</code> doesn't stop <em>other</em> actors from writing to the object. That means if we tried to read, we would have no guarantee that there wasn't some other actor writing to the object, so we might get a race condition.</p>
+
             </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../../composition-inheritance/code-sharing" class="btn btn-neutral float-right" title="Code sharing"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../aliasing" class="btn btn-neutral float-right" title="Aliasing"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../builtin" class="btn btn-neutral" title="Builtin"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../type-qualifiers" class="btn btn-neutral" title="Type qualifiers"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -448,8 +485,8 @@
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
         
-      <span><a href="../builtin" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../../composition-inheritance/code-sharing" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../type-qualifiers" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../aliasing" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>

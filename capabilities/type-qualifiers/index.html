@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Using a package - Pony Tutorial</title>
+  <title>Type qualifiers - Pony Tutorial</title>
   
 
   
@@ -133,23 +133,33 @@
         
         <span>Capabilities</span>
             
-                <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/type-qualifiers">Type qualifiers</a>
+                <li class="toctree-l1 current">
+                    <a class="current" href=".">Type qualifiers</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#the-list-of-capabilities">The list of capabilities</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#how-to-write-a-capability">How to write a capability</a></li>
+                            
+                        
+                        </ul>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/guarantees">Guarantees</a>
+                    <a class="" href="../guarantees">Guarantees</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/aliasing">Aliasing</a>
+                    <a class="" href="../aliasing">Aliasing</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/passing-and-sharing">Passing and sharing</a>
+                    <a class="" href="../passing-and-sharing">Passing and sharing</a>
                     
                 </li>
             
@@ -232,21 +242,17 @@
         <span>Packages</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../package-system">Package system</a>
+                    <a class="" href="../../packages/package-system">Package system</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../builtin">Builtin</a>
+                    <a class="" href="../../packages/builtin">Builtin</a>
                     
                 </li>
             
-                <li class="toctree-l1 current">
-                    <a class="current" href=".">Using a package</a>
-                    
-                        <ul>
-                        
-                        </ul>
+                <li class="toctree-l1 ">
+                    <a class="" href="../../packages/use-statement">Using a package</a>
                     
                 </li>
             
@@ -403,7 +409,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../..">Docs</a> &raquo;</li>
-    <li>Using a package</li>
+    <li>Type qualifiers</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -412,17 +418,46 @@
 </div>
           <div role="main">
             <div class="section">
-              
+              <p>A capability is a form of <em>type qualifier</em>. If you've used C/C++, you may be familiar with <code>const</code>, which is a <em>type qualifier</em> that tells the compiler not to allow the programmer to <em>mutate</em> something.</p>
+<p>Pony capabilities provide a lot more guarantees than <code>const</code> does!</p>
+<h1 id="the-list-of-capabilities">The list of capabilities</h1>
+<p>There are six capabilities:</p>
+<ol>
+<li><code>iso</code>: an isolated type. No other variable can be used to read from or write to this object.</li>
+<li><code>trn</code>: a transition type. No other variable can be used to write to this object. Other variables can be used to read from it, but we are guaranteed that those variables are only held by the <em>same</em> actor that has the <code>trn</code> variable.</li>
+<li><code>ref</code>: a reference type. Other variables can be used to both read from and write to this object, but we are guaranteed that those variables are only held by the <em>same</em> actor that has the <code>ref</code> variable.</li>
+<li><code>val</code>: a value type. No variable, including this one, can be used to write to the object. Readable variables might be held by <em>any</em> actor in the program.</li>
+<li><code>box</code>: a box type. This variable can be used to read from the object, but not write to it. If there is any variable that can be used to write to the object, it's guaranteed to be held by the <em>same</em> actor that has the <code>box</code> variable.</li>
+<li><code>tag</code>: a tag type. This variable can't be used to read from the object or write to it, and no guarantees are made about other variables.</li>
+</ol>
+<p>In Pony, every use of a type has a capability. These capabilities apply to variables, rather than to the type as a whole. In other words, when you define a <code>class Wombat</code>, you don't pick a capability for it. Instead, <code>Wombat</code> variables each have their own capability.</p>
+<p>As an example, in some languages you have to define a type that represents a mutable <code>String</code> and another type that represents an immutable <code>String</code>. For example, in Java there is a <code>String</code> and a <code>StringBuilder</code>. In Pony, you can define a single <code>class String</code> and have some variables that are <code>String ref</code> and other variables that are <code>String val</code>.</p>
+<h1 id="how-to-write-a-capability">How to write a capability</h1>
+<p>A capability comes at the end of a type. So, for example:</p>
+<pre><code>String iso // An isolatated string, which is mutable and read/write unique.
+String trn // A transition string, which is mutable and write unique.
+String ref // A string reference, which is mutable.
+String val // A string value, which is globally immutable.
+String box // A string box, which is locally immutable.
+String tag // A string tag, which is opaque.
+</code></pre>
+
+<p><strong>What does it mean when a type doesn't specify a capability?</strong> It means you are using the <em>default</em> capability for that type. When you define a type, if you don't specify the default capability, it's <code>ref</code>, but you can set it to anything convenient. Here's an example from the standard library:</p>
+<pre><code>class String val
+</code></pre>
+
+<p>When we use a <code>String</code> we usually mean a string value, so we make <code>val</code> the default capability for <code>String</code>.</p>
+
             </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../../composition-inheritance/code-sharing" class="btn btn-neutral float-right" title="Code sharing"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../guarantees" class="btn btn-neutral float-right" title="Guarantees"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../builtin" class="btn btn-neutral" title="Builtin"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../types/type-expressions" class="btn btn-neutral" title="Type expressions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -448,8 +483,8 @@
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
         
-      <span><a href="../builtin" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../../composition-inheritance/code-sharing" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../../types/type-expressions" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../guarantees" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>
