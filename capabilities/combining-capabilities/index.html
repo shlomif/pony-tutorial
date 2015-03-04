@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Classes - Pony Tutorial</title>
+  <title>Combining capabilities - Pony Tutorial</title>
   
 
   
@@ -93,53 +93,37 @@
         <span>Types</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../static-vs-dynamic">Static vs dynamic</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 current">
-                    <a class="current" href=".">Classes</a>
-                    
-                        <ul>
-                        
-                            <li class="toctree-l2"><a href="#what-goes-in-a-class">What goes in a class?</a></li>
-                            
-                                <li><a class="toctree-l3" href="#fields">Fields</a></li>
-                            
-                                <li><a class="toctree-l3" href="#constructors">Constructors</a></li>
-                            
-                                <li><a class="toctree-l3" href="#functions">Functions</a></li>
-                            
-                        
-                            <li class="toctree-l2"><a href="#what-about-inheritance">What about inheritance?</a></li>
-                            
-                        
-                        </ul>
+                    <a class="" href="../../types/static-vs-dynamic">Static vs dynamic</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../primitives">Primitives</a>
+                    <a class="" href="../../types/classes">Classes</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../actors">Actors</a>
+                    <a class="" href="../../types/primitives">Primitives</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../traits-and-interfaces">Traits and interfaces</a>
+                    <a class="" href="../../types/actors">Actors</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../type-aliases">Type aliases</a>
+                    <a class="" href="../../types/traits-and-interfaces">Traits and interfaces</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../type-expressions">Type expressions</a>
+                    <a class="" href="../../types/type-aliases">Type aliases</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../types/type-expressions">Type expressions</a>
                     
                 </li>
             
@@ -150,37 +134,59 @@
         <span>Capabilities</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/type-qualifiers">Type qualifiers</a>
+                    <a class="" href="../type-qualifiers">Type qualifiers</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/guarantees">Guarantees</a>
+                    <a class="" href="../guarantees">Guarantees</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/aliasing">Aliasing</a>
+                    <a class="" href="../aliasing">Aliasing</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 current">
+                    <a class="current" href=".">Combining capabilities</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#viewpoint-adaptation">Viewpoint adaptation</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#explaining-why">Explaining why</a></li>
+                            
+                                <li><a class="toctree-l3" href="#reading-from-an-iso-variable">Reading from an iso variable</a></li>
+                            
+                                <li><a class="toctree-l3" href="#reading-from-a-trn-variable">Reading from a trn variable</a></li>
+                            
+                                <li><a class="toctree-l3" href="#reading-from-a-ref-variable">Reading from a ref variable</a></li>
+                            
+                                <li><a class="toctree-l3" href="#reading-from-a-val-variable">Reading from a val variable</a></li>
+                            
+                                <li><a class="toctree-l3" href="#reading-from-a-box-variable">Reading from a box variable</a></li>
+                            
+                                <li><a class="toctree-l3" href="#reading-from-a-tag-variable">Reading from a tag variable</a></li>
+                            
+                        
+                        </ul>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/combining-capabilities">Combining capabilities</a>
+                    <a class="" href="../passing-and-sharing">Passing and sharing</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/passing-and-sharing">Passing and sharing</a>
+                    <a class="" href="../capability-subtyping">Capability subtyping</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/capability-subtyping">Capability subtyping</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/arrow-types">Arrow types</a>
+                    <a class="" href="../arrow-types">Arrow types</a>
                     
                 </li>
             
@@ -430,7 +436,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../..">Docs</a> &raquo;</li>
-    <li>Classes</li>
+    <li>Combining capabilities</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -439,110 +445,113 @@
 </div>
           <div role="main">
             <div class="section">
-              <p>Just like other object-oriented language, Pony has <strong>classes</strong>. A class is declared with the keyword <code>class</code>, and it has to have a name that starts with a capital letter, like this:</p>
-<pre><code>class Wombat
+              <p>When a field of an object is read, its capability depends both on the capability of the field and the capability of the <strong>origin</strong>, that is, the object the field is being read from.</p>
+<p>This is because all the guarantees that the <strong>origin</strong> capability makes have to be maintained for its fields as well.</p>
+<h1 id="viewpoint-adaptation">Viewpoint adaptation</h1>
+<p>The process of combining origin and field capabilties is called <strong>viewpoint adaptation</strong>. That is, the <strong>origin</strong> has a <strong>viewpoint</strong>, and can "see" its fields only from that <strong>viewpoint</strong>.</p>
+<p>Let's start with a table. This shows how <strong>fields</strong> of each capability "look" to <strong>origins</strong> of each capability.</p>
+<hr />
+<table>
+<thead>
+<tr>
+<th>&#x25B7;</th>
+<th>iso field</th>
+<th>trn field</th>
+<th>ref field</th>
+<th>val field</th>
+<th>box field</th>
+<th>tag field</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>iso origin</strong></td>
+<td>iso</td>
+<td>tag</td>
+<td>tag</td>
+<td>val</td>
+<td>tag</td>
+<td>tag</td>
+</tr>
+<tr>
+<td><strong>trn origin</strong></td>
+<td>iso</td>
+<td>trn</td>
+<td>box</td>
+<td>val</td>
+<td>box</td>
+<td>tag</td>
+</tr>
+<tr>
+<td><strong>ref origin</strong></td>
+<td>iso</td>
+<td>trn</td>
+<td>ref</td>
+<td>val</td>
+<td>box</td>
+<td>tag</td>
+</tr>
+<tr>
+<td><strong>val origin</strong></td>
+<td>val</td>
+<td>val</td>
+<td>val</td>
+<td>val</td>
+<td>val</td>
+<td>tag</td>
+</tr>
+<tr>
+<td><strong>box origin</strong></td>
+<td>tag</td>
+<td>box</td>
+<td>box</td>
+<td>val</td>
+<td>box</td>
+<td>tag</td>
+</tr>
+<tr>
+<td><strong>tag origin</strong></td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>For example, if you have a <code>trn</code> origin and you read a <code>ref</code> field, you get a <code>box</code> result:</p>
+<pre><code>class Foo
+  var x: String ref
+
+class Bar
+  fun f() =&gt;
+    var y: Foo trn = getTrnFoo()
+    var z: String box = y.x
 </code></pre>
 
-<p><strong>Do all types start with a capital letter?</strong> Yes! And nothing else starts with a capital letter. So when you see a name in Pony code, you will instantly know whether it's a type or not.</p>
-<h1 id="what-goes-in-a-class">What goes in a class?</h1>
-<p>A class is composed of:</p>
-<ol>
-<li>Fields.</li>
-<li>Constructors.</li>
-<li>Functions.</li>
-</ol>
-<h2 id="fields">Fields</h2>
-<p>These are just like fields in C structs or fields in classes in C++, C#, Java, Python, Ruby, or basically any language, really. There are two kinds of fields: var fields and let fields. A var field can be assigned to over and over again, but a let field is assigned to in the constructor and never again.</p>
-<pre><code>class Wombat
-  let name: String
-  var _hunger_level: U64
-</code></pre>
-
-<p>Here, a <code>Wombat</code> has a <code>name</code>, which is a <code>String</code>, and a <code>_hunger_level</code>, which is a <code>U64</code> (an unsigned 64 bit integer).</p>
-<p><strong>What does the leading underscore mean?</strong> It means something is <strong>private</strong>. A <strong>private</strong> field can only be accessed by code in the same type. A <strong>private</strong> constructor, function, or behaviour can only be accessed by code in the same package. We'll talk more about packages later.</p>
-<h2 id="constructors">Constructors</h2>
-<p>Pony constructors have names. Other than that, they are just like constructors in other languages. They can have parameters, and they always return a new instance of the type. Since they have names, you can have more than one constructor for a type.</p>
-<p>Constructors are introduced with the <strong>new</strong> keyword.</p>
-<pre><code>class Wombat
-  let name: String
-  var _hunger_level: U64
-
-  new create(name': String) =&gt;
-    name = name'
-    _hunger_level = 0
-
-  new hungry(name': String, hunger: U64) =&gt;
-    name = name'
-    _hunger_level = hunger
-</code></pre>
-
-<p>Here, we have two constructors, one that creates a <code>Wombat</code> that isn't hungry, and another that creates a <code>Wombat</code> that might be hungry or might not.</p>
-<p><strong>What's with the single quote thing, i.e. name'?</strong> You can use single quotes in parameter and local variable names. In mathematics, it's called a <em>prime</em>, and it's used to say "another one of these, but not the same one". Basically, it's just convenient.</p>
-<h3 id="everything-has-to-get-set-in-a-constructor">Everything has to get set in a constructor</h3>
-<p>Every constructor has to set every field in an object. If it doesn't, the compiler will give you an error. Since there is no <code>null</code> in Pony, we can't do what Java, C# and many other languages do and just assign either <code>null</code> or zero to every field before the constructor runs, and since we don't want random crashes, we don't leave fields undefined, like C or C++.</p>
-<h3 id="field-initialisers">Field initialisers</h3>
-<p>Sometimes it's convenient to set a field the same way for all constructors.</p>
-<pre><code>class Wombat
-  let name: String
-  var _hunger_level: U64
-  var _thirst_level: U64 = 1
-
-  new create(name': String) =&gt;
-    name = name'
-    _hunger_level = 0
-
-  new hungry(name': String, hunger: U64) =&gt;
-    name = name'
-    _hunger_level = hunger
-</code></pre>
-
-<p>Here, every <code>Wombat</code> begins a little bit thirsty, regardless of which constructor is called.</p>
-<h2 id="functions">Functions</h2>
-<p>Functions in Pony are like methods in Java, C#, C++, Ruby, Python, or pretty much any other object oriented language. They are introduced with the keyword <code>fun</code>. They can have parameters, like constructors do, and they can also have a result type (if no result type is given, it defaults to <code>None</code>).</p>
-<pre><code>class Wombat
-  let name: String
-  var _hunger_level: U64
-  var _thirst_level: U64 = 1
-
-  new create(name': String) =&gt;
-    name = name'
-    _hunger_level = 0
-
-  new hungry(name': String, hunger: U64) =&gt;
-    name = name'
-    _hunger_level = hunger
-
-  fun hunger(): U64 =&gt; _hunger_level
-
-  fun ref set_hunger(to: U64 = 0): U64 =&gt; _hunger_level = to
-</code></pre>
-
-<p>The first function, <code>hunger</code>, is pretty straight forward. It has a result type of <code>U64</code>, and it returns <code>_hunger_level</code>, which is a <code>U64</code>. The only thing a bit different here is that no <code>return</code> keyword is used. This is because the result of a function is the result of the last expression in the function, in this case the value of <code>_hunger_level</code>.</p>
-<p><strong>Is there a <code>return</code> keyword in Pony?</strong> Yes. It's used to return "early" from a function, i.e. to return something right away and not keep running until the last expression.</p>
-<p>The second function, <code>set_hunger</code>, introduces a <em>bunch</em> of new concepts all at once. Let's go through them one by one.</p>
-<h3 id="the-ref-keyword-right-after-fun">The <code>ref</code> keyword right after <code>fun</code></h3>
-<p>This is a <strong>capability</strong>. In this case, it means the <em>receiver</em>, i.e. the object on which the <code>set_hunger</code> function is being called, has to be a <code>ref</code> type. A <code>ref</code> type is a <strong>reference type</strong>, meaning that the object is <strong>mutable</strong>. We need this because we are writing a new value to the <code>_hunger_level</code> field.</p>
-<p><strong>What's the receiver capability of the <code>hunger</code> method?</strong> The default receiver capability if none is specified is <code>box</code>, which means "I need to be able to read from this, but I won't write to it".</p>
-<p><strong>What would happen if we left the <code>ref</code> keyword off the <code>set_hunger</code> method?</strong> The compiler would give you an error. It would see you were trying to modify a field and complain about it.</p>
-<h3 id="the-0-after-the-parameter-to">The <code>= 0</code> after the parameter <code>to</code></h3>
-<p>This is a <strong>default argument</strong>. It means that if you don't include that argument at the call site, you will get the default argument. In this case, <code>to</code> will be zero if you don't specify it.</p>
-<h3 id="what-does-the-function-return">What does the function return?</h3>
-<p>It returns the <em>old</em> value of <code>_hunger_level</code>.</p>
-<p><strong>Wait, seriously? The <em>old</em> value?</strong> Yes. In Pony, assignment is an expression rather than a statement. That means it has a result. This is true of a lot of languages, but they tend to return the <em>new</em> value. In other words, given <code>a = b</code>, in most languages, the value of that is the value of <code>b</code>. But in Pony, the value of that is the <em>old</em> value of <code>a</code>.</p>
-<p><strong>...why?</strong> It's called a "destructive read", and it lets you do awesome things with a capabilities type system. We'll talk about that more later. For now, we'll just mention that you can also use it to implement a <em>swap</em> operation. In most languages, to swap the values of <code>a</code> and <code>b</code> you need to do something like:</p>
-<pre><code>var temp = a
-a = b
-b = temp
-</code></pre>
-
-<p>In Pony, you can just do:</p>
-<pre><code>a = b = a
-</code></pre>
-
-<h1 id="what-about-inheritance">What about inheritance?</h1>
-<p>In some object-oriented languages, a type can <em>inherit</em> from another type, like how in Java something can <strong>extend</strong> something else. Pony doesn't do that. Instead, Pony prefers <em>composition</em> to <em>inheritence</em>. In other words, instead of getting code reuse by saying something <strong>is</strong> something else, you get it by saying something <strong>has</strong> something else.</p>
-<p>On the other hand, Pony has a powerful <strong>trait</strong> system (similar to Java 8 interfaces that can have default implementations) and a powerful <strong>interface</strong> system (similar to Go interfaces, i.e. structurally typed).</p>
-<p>We'll talk about all that stuff in detail later.</p>
+<h1 id="explaining-why">Explaining why</h1>
+<p>That table will seem totally natural to you, eventually. But probably not yet. To help it seem natural, let's walk through each cell in the table and explain why it is the way it is.</p>
+<h2 id="reading-from-an-iso-variable">Reading from an <code>iso</code> variable</h2>
+<p>Anything read through an <code>iso</code> origin has to maintain the isolation guarantee that the origin has. The key thing to remember is that the <code>iso</code> can be sent to another actor and it can also become any other capability. So when we read a field, we need to get a result that won't ever break the isolation guarantees that the origin makes, that is, <em>read and write uniqueness</em>.</p>
+<p>An <code>iso</code> field makes the same guarantees as an <code>iso</code> origin, so that's fine to read. A <code>val</code> field is <em>globally immutable</em>, which means it's always ok to read it, no matter what the origin is (well, other than <code>tag</code>).</p>
+<p>Everything else, though, can break our isolation guarantees. That's why other capabilities are seen as <code>tag</code>: it's the only type that is neither readable nor writeable.</p>
+<h2 id="reading-from-a-trn-variable">Reading from a <code>trn</code> variable</h2>
+<p>This is like <code>iso</code>, but with a weaker guarantee (<em>write uniqueness</em> as opposed to <em>read and write uniqueness</em>). That makes a big difference, since now we can return something readable when we enforce our guarantees.</p>
+<p>An <code>iso</code> field makes stronger guarantees than a <code>trn</code> origin, and a <code>trn</code> field makes the same guarantees, so they're fine to read. A <code>val</code> field is <em>globally immutable</em>, so that's fine too. A <code>box</code> field is readable, and we only guarantee <em>write uniqueness</em>, so that's fine too.</p>
+<p>A <code>ref</code> field, though, would allow writing. So instead we return a <code>box</code> capability.</p>
+<h2 id="reading-from-a-ref-variable">Reading from a <code>ref</code> variable</h2>
+<p>A <code>ref</code> origin doesn't modify its fields at all. This is because a <code>ref</code> origin doesn't make any guarantees that are incompatible with its fields.</p>
+<h2 id="reading-from-a-val-variable">Reading from a <code>val</code> variable</h2>
+<p>A <code>val</code> origin is deeply and globally immutable, so all of its fields are also <code>val</code>. The only exception is a <code>tag</code> field. Since we can't read from it, we also can't guarantee that nobody can write to it, so it stays <code>tag</code>.</p>
+<h2 id="reading-from-a-box-variable">Reading from a <code>box</code> variable</h2>
+<p>A <code>box</code> variable is locally immutable. This means it's possible that it may be mutated through some other variable (a <code>trn</code> or a <code>ref</code>), but it's also possible that our <code>box</code> variable is an alias of some <code>val</code> variable.</p>
+<p>When we read a field, we need to return a capability that is compatible with the field, but is also locally immutable.</p>
+<p>An <code>iso</code> field is returned as a <code>tag</code> because no locally immutable capability can maintain its isolation guarantees. A <code>val</code> field is returned as a <code>val</code> because global immutability is a stronger guarantee than local immutability. A <code>box</code> field makes the same local immutability guarantee as its origin, so that's also fine.</p>
+<p>For <code>trn</code> and <code>ref</code> we need to return a locally immutable capability that doesn't violate any guarantees the field makes. In both cases, we can return <code>box</code>.</p>
+<h2 id="reading-from-a-tag-variable">Reading from a <code>tag</code> variable</h2>
+<p>This one is easy: <code>tag</code> variables are opaque! They can't be read from.</p>
 
             </div>
           </div>
@@ -550,10 +559,10 @@ b = temp
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../primitives" class="btn btn-neutral float-right" title="Primitives"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../passing-and-sharing" class="btn btn-neutral float-right" title="Passing and sharing"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../static-vs-dynamic" class="btn btn-neutral" title="Static vs dynamic"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../aliasing" class="btn btn-neutral" title="Aliasing"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -579,8 +588,8 @@ b = temp
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
         
-      <span><a href="../static-vs-dynamic" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../primitives" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../aliasing" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../passing-and-sharing" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>

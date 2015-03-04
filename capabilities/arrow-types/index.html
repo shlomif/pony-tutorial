@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Classes - Pony Tutorial</title>
+  <title>Arrow types - Pony Tutorial</title>
   
 
   
@@ -93,53 +93,37 @@
         <span>Types</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../static-vs-dynamic">Static vs dynamic</a>
-                    
-                </li>
-            
-                <li class="toctree-l1 current">
-                    <a class="current" href=".">Classes</a>
-                    
-                        <ul>
-                        
-                            <li class="toctree-l2"><a href="#what-goes-in-a-class">What goes in a class?</a></li>
-                            
-                                <li><a class="toctree-l3" href="#fields">Fields</a></li>
-                            
-                                <li><a class="toctree-l3" href="#constructors">Constructors</a></li>
-                            
-                                <li><a class="toctree-l3" href="#functions">Functions</a></li>
-                            
-                        
-                            <li class="toctree-l2"><a href="#what-about-inheritance">What about inheritance?</a></li>
-                            
-                        
-                        </ul>
+                    <a class="" href="../../types/static-vs-dynamic">Static vs dynamic</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../primitives">Primitives</a>
+                    <a class="" href="../../types/classes">Classes</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../actors">Actors</a>
+                    <a class="" href="../../types/primitives">Primitives</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../traits-and-interfaces">Traits and interfaces</a>
+                    <a class="" href="../../types/actors">Actors</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../type-aliases">Type aliases</a>
+                    <a class="" href="../../types/traits-and-interfaces">Traits and interfaces</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../type-expressions">Type expressions</a>
+                    <a class="" href="../../types/type-aliases">Type aliases</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../types/type-expressions">Type expressions</a>
                     
                 </li>
             
@@ -150,37 +134,41 @@
         <span>Capabilities</span>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/type-qualifiers">Type qualifiers</a>
+                    <a class="" href="../type-qualifiers">Type qualifiers</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/guarantees">Guarantees</a>
+                    <a class="" href="../guarantees">Guarantees</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/aliasing">Aliasing</a>
+                    <a class="" href="../aliasing">Aliasing</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/combining-capabilities">Combining capabilities</a>
+                    <a class="" href="../combining-capabilities">Combining capabilities</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/passing-and-sharing">Passing and sharing</a>
+                    <a class="" href="../passing-and-sharing">Passing and sharing</a>
                     
                 </li>
             
                 <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/capability-subtyping">Capability subtyping</a>
+                    <a class="" href="../capability-subtyping">Capability subtyping</a>
                     
                 </li>
             
-                <li class="toctree-l1 ">
-                    <a class="" href="../../capabilities/arrow-types">Arrow types</a>
+                <li class="toctree-l1 current">
+                    <a class="current" href=".">Arrow types</a>
+                    
+                        <ul>
+                        
+                        </ul>
                     
                 </li>
             
@@ -430,7 +418,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../..">Docs</a> &raquo;</li>
-    <li>Classes</li>
+    <li>Arrow types</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -439,121 +427,17 @@
 </div>
           <div role="main">
             <div class="section">
-              <p>Just like other object-oriented language, Pony has <strong>classes</strong>. A class is declared with the keyword <code>class</code>, and it has to have a name that starts with a capital letter, like this:</p>
-<pre><code>class Wombat
-</code></pre>
-
-<p><strong>Do all types start with a capital letter?</strong> Yes! And nothing else starts with a capital letter. So when you see a name in Pony code, you will instantly know whether it's a type or not.</p>
-<h1 id="what-goes-in-a-class">What goes in a class?</h1>
-<p>A class is composed of:</p>
-<ol>
-<li>Fields.</li>
-<li>Constructors.</li>
-<li>Functions.</li>
-</ol>
-<h2 id="fields">Fields</h2>
-<p>These are just like fields in C structs or fields in classes in C++, C#, Java, Python, Ruby, or basically any language, really. There are two kinds of fields: var fields and let fields. A var field can be assigned to over and over again, but a let field is assigned to in the constructor and never again.</p>
-<pre><code>class Wombat
-  let name: String
-  var _hunger_level: U64
-</code></pre>
-
-<p>Here, a <code>Wombat</code> has a <code>name</code>, which is a <code>String</code>, and a <code>_hunger_level</code>, which is a <code>U64</code> (an unsigned 64 bit integer).</p>
-<p><strong>What does the leading underscore mean?</strong> It means something is <strong>private</strong>. A <strong>private</strong> field can only be accessed by code in the same type. A <strong>private</strong> constructor, function, or behaviour can only be accessed by code in the same package. We'll talk more about packages later.</p>
-<h2 id="constructors">Constructors</h2>
-<p>Pony constructors have names. Other than that, they are just like constructors in other languages. They can have parameters, and they always return a new instance of the type. Since they have names, you can have more than one constructor for a type.</p>
-<p>Constructors are introduced with the <strong>new</strong> keyword.</p>
-<pre><code>class Wombat
-  let name: String
-  var _hunger_level: U64
-
-  new create(name': String) =&gt;
-    name = name'
-    _hunger_level = 0
-
-  new hungry(name': String, hunger: U64) =&gt;
-    name = name'
-    _hunger_level = hunger
-</code></pre>
-
-<p>Here, we have two constructors, one that creates a <code>Wombat</code> that isn't hungry, and another that creates a <code>Wombat</code> that might be hungry or might not.</p>
-<p><strong>What's with the single quote thing, i.e. name'?</strong> You can use single quotes in parameter and local variable names. In mathematics, it's called a <em>prime</em>, and it's used to say "another one of these, but not the same one". Basically, it's just convenient.</p>
-<h3 id="everything-has-to-get-set-in-a-constructor">Everything has to get set in a constructor</h3>
-<p>Every constructor has to set every field in an object. If it doesn't, the compiler will give you an error. Since there is no <code>null</code> in Pony, we can't do what Java, C# and many other languages do and just assign either <code>null</code> or zero to every field before the constructor runs, and since we don't want random crashes, we don't leave fields undefined, like C or C++.</p>
-<h3 id="field-initialisers">Field initialisers</h3>
-<p>Sometimes it's convenient to set a field the same way for all constructors.</p>
-<pre><code>class Wombat
-  let name: String
-  var _hunger_level: U64
-  var _thirst_level: U64 = 1
-
-  new create(name': String) =&gt;
-    name = name'
-    _hunger_level = 0
-
-  new hungry(name': String, hunger: U64) =&gt;
-    name = name'
-    _hunger_level = hunger
-</code></pre>
-
-<p>Here, every <code>Wombat</code> begins a little bit thirsty, regardless of which constructor is called.</p>
-<h2 id="functions">Functions</h2>
-<p>Functions in Pony are like methods in Java, C#, C++, Ruby, Python, or pretty much any other object oriented language. They are introduced with the keyword <code>fun</code>. They can have parameters, like constructors do, and they can also have a result type (if no result type is given, it defaults to <code>None</code>).</p>
-<pre><code>class Wombat
-  let name: String
-  var _hunger_level: U64
-  var _thirst_level: U64 = 1
-
-  new create(name': String) =&gt;
-    name = name'
-    _hunger_level = 0
-
-  new hungry(name': String, hunger: U64) =&gt;
-    name = name'
-    _hunger_level = hunger
-
-  fun hunger(): U64 =&gt; _hunger_level
-
-  fun ref set_hunger(to: U64 = 0): U64 =&gt; _hunger_level = to
-</code></pre>
-
-<p>The first function, <code>hunger</code>, is pretty straight forward. It has a result type of <code>U64</code>, and it returns <code>_hunger_level</code>, which is a <code>U64</code>. The only thing a bit different here is that no <code>return</code> keyword is used. This is because the result of a function is the result of the last expression in the function, in this case the value of <code>_hunger_level</code>.</p>
-<p><strong>Is there a <code>return</code> keyword in Pony?</strong> Yes. It's used to return "early" from a function, i.e. to return something right away and not keep running until the last expression.</p>
-<p>The second function, <code>set_hunger</code>, introduces a <em>bunch</em> of new concepts all at once. Let's go through them one by one.</p>
-<h3 id="the-ref-keyword-right-after-fun">The <code>ref</code> keyword right after <code>fun</code></h3>
-<p>This is a <strong>capability</strong>. In this case, it means the <em>receiver</em>, i.e. the object on which the <code>set_hunger</code> function is being called, has to be a <code>ref</code> type. A <code>ref</code> type is a <strong>reference type</strong>, meaning that the object is <strong>mutable</strong>. We need this because we are writing a new value to the <code>_hunger_level</code> field.</p>
-<p><strong>What's the receiver capability of the <code>hunger</code> method?</strong> The default receiver capability if none is specified is <code>box</code>, which means "I need to be able to read from this, but I won't write to it".</p>
-<p><strong>What would happen if we left the <code>ref</code> keyword off the <code>set_hunger</code> method?</strong> The compiler would give you an error. It would see you were trying to modify a field and complain about it.</p>
-<h3 id="the-0-after-the-parameter-to">The <code>= 0</code> after the parameter <code>to</code></h3>
-<p>This is a <strong>default argument</strong>. It means that if you don't include that argument at the call site, you will get the default argument. In this case, <code>to</code> will be zero if you don't specify it.</p>
-<h3 id="what-does-the-function-return">What does the function return?</h3>
-<p>It returns the <em>old</em> value of <code>_hunger_level</code>.</p>
-<p><strong>Wait, seriously? The <em>old</em> value?</strong> Yes. In Pony, assignment is an expression rather than a statement. That means it has a result. This is true of a lot of languages, but they tend to return the <em>new</em> value. In other words, given <code>a = b</code>, in most languages, the value of that is the value of <code>b</code>. But in Pony, the value of that is the <em>old</em> value of <code>a</code>.</p>
-<p><strong>...why?</strong> It's called a "destructive read", and it lets you do awesome things with a capabilities type system. We'll talk about that more later. For now, we'll just mention that you can also use it to implement a <em>swap</em> operation. In most languages, to swap the values of <code>a</code> and <code>b</code> you need to do something like:</p>
-<pre><code>var temp = a
-a = b
-b = temp
-</code></pre>
-
-<p>In Pony, you can just do:</p>
-<pre><code>a = b = a
-</code></pre>
-
-<h1 id="what-about-inheritance">What about inheritance?</h1>
-<p>In some object-oriented languages, a type can <em>inherit</em> from another type, like how in Java something can <strong>extend</strong> something else. Pony doesn't do that. Instead, Pony prefers <em>composition</em> to <em>inheritence</em>. In other words, instead of getting code reuse by saying something <strong>is</strong> something else, you get it by saying something <strong>has</strong> something else.</p>
-<p>On the other hand, Pony has a powerful <strong>trait</strong> system (similar to Java 8 interfaces that can have default implementations) and a powerful <strong>interface</strong> system (similar to Go interfaces, i.e. structurally typed).</p>
-<p>We'll talk about all that stuff in detail later.</p>
-
+              
             </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../primitives" class="btn btn-neutral float-right" title="Primitives"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../../expressions/variables" class="btn btn-neutral float-right" title="Variables"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../static-vs-dynamic" class="btn btn-neutral" title="Static vs dynamic"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../capability-subtyping" class="btn btn-neutral" title="Capability subtyping"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -579,8 +463,8 @@ b = temp
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
         
-      <span><a href="../static-vs-dynamic" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../primitives" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../capability-subtyping" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../../expressions/variables" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>
