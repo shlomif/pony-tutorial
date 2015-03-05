@@ -168,6 +168,15 @@
                     
                         <ul>
                         
+                            <li class="toctree-l2"><a href="#using-this-as-a-viewpoint">Using this-&gt; as a viewpoint</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#using-a-type-parameter-as-a-viewpoint">Using a type parameter as a viewpoint</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#using-box-as-a-viewpoint">Using box-&gt; as a viewpoint</a></li>
+                            
+                        
                         </ul>
                     
                 </li>
@@ -427,7 +436,39 @@
 </div>
           <div role="main">
             <div class="section">
-              
+              <p>When we talked about <strong>capability composition</strong> and <strong>viewpoint adaptation</strong>, we dealt with cases where we know the capability of the origin. However, sometimes we don't know the precise capability of the origin.</p>
+<p>When that happens, we can write a <strong>viewpoint adapted type</strong>, which we call an <strong>arrow type</strong> because we write it with an <code>-&gt;</code>.</p>
+<h1 id="using-this-as-a-viewpoint">Using <code>this-&gt;</code> as a viewpoint</h1>
+<p>A function with a <code>box</code> receiver can be called with a <code>ref</code> receiver or a <code>val</code> receiver as well, since those are both subtypes of <code>box</code>. Sometimes, we want to be able to talk about a type takes this into account. For example:</p>
+<pre><code>class Wombat
+  var _friend: Wombat
+
+  fun friend(): this-&gt;Wombat =&gt; _friend
+</code></pre>
+
+<p>Here, we have a <code>Wombat</code>, and every <code>Wombat</code> has a friend that's also a <code>Wombat</code> (lucky <code>Wombat</code>). In fact, it's a <code>Wombat ref</code>, since <code>ref</code> is the default capability for a <code>Wombat</code> (since we didn't specify one). We also have a function that returns that friend. It's got a <code>box</code> receiver (because <code>box</code> is the default receiver capability for a function if we don't specify it).</p>
+<p>So the return type would normally be a <code>Wombat box</code>. Why's that? Because, as we saw earlier, when we read a <code>ref</code> field from a <code>box</code> origin, we get a <code>box</code>. In this case, the origin is the receiver, which is a <code>box</code>.</p>
+<p>But wait! What if we want a function that can return a <code>Wombat ref</code> when the receiver is a <code>ref</code>, a <code>Wombat val</code> when the receiver is a <code>val</code>, and a <code>Wombat box</code> when the receiver is a <code>box</code>? We don't want to have to write the function three times.</p>
+<p>We use <code>this-&gt;</code>! In this case, <code>this-&gt;Wombat</code>. It means "a <code>Wombat ref</code> as seen by the receiver".</p>
+<p>We know at the <em>call site</em> what the real capability of the receiver is. So when the function is called, the compiler knows everything it needs to know to get this right.</p>
+<h1 id="using-a-type-parameter-as-a-viewpoint">Using a type parameter as a viewpoint</h1>
+<p>We haven't covered generics yet, so this may seem a little weird. We'll cover this again when we talk about generics (i.e. parameterised types), but we're mentioning it here for completeness.</p>
+<p>Another time we don't know the precise capability of something is if we are using a type parameter. Here's an example from the standard library:</p>
+<pre><code>class ListValues[A, N: ListNode[A] box] is Iterator[N-&gt;A]
+</code></pre>
+
+<p>Here, we have a <code>ListValues</code> type that has two type parameters, <code>A</code> and <code>N</code>. In addition, <code>N</code> has a constraint: it has to be a subtype of <code>ListNode[A] box</code>. That's all fine and well, but we also say the <code>ListValues[A, N]</code> provides <code>Iterator[N-&gt;A]</code>. That's the interesting bit: we provide an interface that let's us iterate over values of the type <code>N-&gt;A</code>.</p>
+<p>That means we'll be returning objects of the type <code>A</code>, but the capability will be the however an object of type <code>N</code> would see an object of type <code>A</code>.</p>
+<h1 id="using-box-as-a-viewpoint">Using <code>box-&gt;</code> as a viewpoint</h1>
+<p>There's one more way we use arrow types, and it's also related to generics. Sometimes we want to talk about a type parameter as it is seen by some unknown type, <em>as long as that type can read the type parameter</em>.</p>
+<p>In other words, the unknown type will be a subtype of <code>box</code>, but that's all we know. Here's an example from the standard library:</p>
+<pre><code>interface Comparable[A: Comparable[A] box]
+  fun eq(that: box-&gt;A): Bool =&gt; this is that
+  fun ne(that: box-&gt;A): Bool =&gt; not eq(that)
+</code></pre>
+
+<p>Here, we say that something is <code>Comparable[A]</code> if and only if it has functions <code>eq</code> and <code>ne</code> and those functions have a single parameter of type <code>box-&gt;A</code> and return a <code>Bool</code>. In other words, whatever <code>A</code> is bound to, we only need to be able to read it.</p>
+
             </div>
           </div>
           <footer>
