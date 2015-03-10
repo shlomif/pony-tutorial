@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Type qualifiers - Pony Tutorial</title>
+  <title>Introduction - Pony Tutorial</title>
   
 
   
@@ -123,9 +123,15 @@
         <span>Capabilities</span>
             
                 <li class="toctree-l1 current">
-                    <a class="current" href=".">Type qualifiers</a>
+                    <a class="current" href=".">Introduction</a>
                     
                         <ul>
+                        
+                            <li class="toctree-l2"><a href="#basic-concepts">Basic concepts</a></li>
+                            
+                        
+                            <li class="toctree-l2"><a href="#type-qualifiers">Type qualifiers</a></li>
+                            
                         
                             <li class="toctree-l2"><a href="#the-list-of-capabilities">The list of capabilities</a></li>
                             
@@ -413,7 +419,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../..">Docs</a> &raquo;</li>
-    <li>Type qualifiers</li>
+    <li>Introduction</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -422,35 +428,56 @@
 </div>
           <div role="main">
             <div class="section">
-              <p>A capability is a form of <em>type qualifier</em>. If you've used C/C++, you may be familiar with <code>const</code>, which is a <em>type qualifier</em> that tells the compiler not to allow the programmer to <em>mutate</em> something.</p>
-<p>Pony capabilities provide a lot more guarantees than <code>const</code> does!</p>
-<h1 id="the-list-of-capabilities">The list of capabilities</h1>
-<p>There are six capabilities:</p>
+              <p>Pony allows you to write concurrent programs without worrying about locks or data-races and without having expensive runtime safety checks. How does it do this? By using something called capabilities. These allow you to specify which of your objects can be shared with other actors and allow the compiler to check that what you're doing is concurrency safe.</p>
+<p><strong>I think I've heard of capabilities, what other languages have them?</strong> Pony capabilities are completely new, no other language has them. Unfortunately in the programming world many words are used by different people to mean different things. You may have heard of capabilities somewhere else, but these are not the same thing.</p>
+<h1 id="basic-concepts">Basic concepts</h1>
+<p>There are a few simple concepts you need to understand before capabilities will make any sense. We've talked about some of these already, and some may already be obvious to you, but it's worth recapping here.</p>
+<p><strong>Shared mutable data is hard</strong></p>
+<p>The problem with concurrency is shared mutable data. If two different threads have access to the same piece of data then they might try to update it at the same time. At best this can lead to the two threads having different versions of the data. At worst the updates can interact badly resulting in the data being overwritten with garbage. The standard way to avoid these problems is to use locks to prevent data updates from happening at the same time. This causes big performance hits and is very difficult to get right, so it causes lots of bugs.</p>
+<p><strong>Immutable data can be safely shared</strong></p>
+<p>Any data that is immutable (i.e. it cannot can changed) is safe to use concurrently. Since it is immutable it is never updated and it's the updates that cause concurrency problems.</p>
+<p><strong>Isolated data is safe</strong></p>
+<p>If a block of data has only one reference to it then we call it <strong>isolated</strong>. Since there is only one reference to it, isolated data cannot be <strong>shared</strong> by multiple threads, so there are no concurrency problems. Isolated data can be passed between multiple threads. As long as only one of them has a reference to it at a time then the data is still safe from concurrency problems.</p>
+<p><strong>Isolated data may be complex</strong></p>
+<p>An isolated piece of data may be a single byte. But it can also be a large data structure with multiple references between the various objects in that structure. What matters for the data to be isolated is that there is only a single reference to that structure as a whole. We talk about the <strong>isolation boundary</strong> of a data structure. For the structure to be isolated:</p>
 <ol>
-<li><code>iso</code>: an isolated type. No other variable can be used to read from or write to this object.</li>
-<li><code>trn</code>: a transition type. No other variable can be used to write to this object. Other variables can be used to read from it, but we are guaranteed that those variables are only held by the <em>same</em> actor that has the <code>trn</code> variable.</li>
-<li><code>ref</code>: a reference type. Other variables can be used to both read from and write to this object, but we are guaranteed that those variables are only held by the <em>same</em> actor that has the <code>ref</code> variable.</li>
-<li><code>val</code>: a value type. No variable, including this one, can be used to write to the object. Readable variables might be held by <em>any</em> actor in the program.</li>
-<li><code>box</code>: a box type. This variable can be used to read from the object, but not write to it. If there is any variable that can be used to write to the object, it's guaranteed to be held by the <em>same</em> actor that has the <code>box</code> variable.</li>
-<li><code>tag</code>: a tag type. This variable can't be used to read from the object or write to it, and no guarantees are made about other variables.</li>
+<li>There must only be a single reference outside the boundary that points to an object inside.</li>
+<li>There can be any number of references inside the boundary, but none of them must point to an object outside.</li>
 </ol>
+<p><strong>Every actor is single threaded</strong></p>
+<p>The code within a single actor is never run concurrently. This means that, within a single actor, data updates cannot cause problems. It's only when we want to share data between actors that we have problems.</p>
+<p><strong>OK, safely sharing data concurrently is tricky. How do capabilities help?</strong></p>
+<p>By sharing only immutable data and exchanging only isolated data we can have safe concurrent programs without locks. The problem is that it's very difficult to do that correctly. If you accidentally hang on to a reference to some isolated data you've handed over or change something you've shared as immutable then everything goes wrong. What you need is for the compiler to force you to live up to your promises. Pony capabilities allow the compiler to do just that.</p>
+<h1 id="type-qualifiers">Type qualifiers</h1>
+<p>If you've used C/C++, you may be familiar with <code>const</code>, which is a <em>type qualifier</em> that tells the compiler not to allow the programmer to <em>mutate</em> something.</p>
+<p>A capability is a form of <em>type qualifier</em> and provides a lot more guarantees than <code>const</code> does!</p>
 <p>In Pony, every use of a type has a capability. These capabilities apply to variables, rather than to the type as a whole. In other words, when you define a <code>class Wombat</code>, you don't pick a capability for it. Instead, <code>Wombat</code> variables each have their own capability.</p>
-<p>As an example, in some languages you have to define a type that represents a mutable <code>String</code> and another type that represents an immutable <code>String</code>. For example, in Java there is a <code>String</code> and a <code>StringBuilder</code>. In Pony, you can define a single <code>class String</code> and have some variables that are <code>String ref</code> and other variables that are <code>String val</code>.</p>
+<p>As an example, in some languages you have to define a type that represents a mutable <code>String</code> and another type that represents an immutable <code>String</code>. For example, in Java there is a <code>String</code> and a <code>StringBuilder</code>. In Pony, you can define a single <code>class String</code> and have some variables that are <code>String ref</code> (which are mutable) and other variables that are <code>String val</code> (which are immutable).</p>
+<h1 id="the-list-of-capabilities">The list of capabilities</h1>
+<p>There are six capabilities in Pony and they all have strict definitions and rules on how they can be used. We'll get to all of that later, but for now here are their names and what you use them for:</p>
+<p><strong>Isolated</strong>, written <code>iso</code>. This is for references to isolated data structures. If you have an <code>iso</code> variable then you know that there are no other variables that can access that data. So you can change it however you like and give it to another actor.</p>
+<p><strong>Value</strong>, written <code>val</code>. This is for references to immutable data structures. If you have a <code>val</code> variable then you know that no-one can change the data. So you can read it and share it with other actors.</p>
+<p><strong>Reference</strong>, written <code>ref</code>. This is for references to mutable data structures that are not isolated, in other words "normal" data. If you have a <code>ref</code> variable then you can read and write the data however you like and you can have multiple variables that can access the same data. But you can't share it with other actors.</p>
+<p><strong>Box</strong>. This is for references to data that is read-only to you. That data might be immutable and shared with other actors or there may be other variables using it in your actor that can change the data. Either way the <code>box</code> variable can be used to safely read the data. This may sound a little pointless, but it allows you to write code that can work for both <code>val</code> and <code>ref</code> variables, as long as it doesn't write to the object.</p>
+<p><strong>Transition</strong>, written <code>trn</code>. This is used for data structures that you want to write to and give out read-only (<code>box</code>) variables to. You can also convert the <code>trn</code> variable to a <code>val</code> variable later if you wish, which stops anyone from changing the data and allows it be shared with other actors.</p>
+<p><strong>Tag</strong>. This is for references used only for identification. You cannot read or write data using a <code>tag</code> variable. But you can store and compare <code>tag</code>s to check object identity and share <code>tag</code> variables with other actors.</p>
+<p>Note that if you have a variable referring to an actor then you can send messages to that actor regardless of what capability that variable is.</p>
 <h1 id="how-to-write-a-capability">How to write a capability</h1>
 <p>A capability comes at the end of a type. So, for example:</p>
-<pre><code>String iso // An isolatated string, which is mutable and read/write unique.
-String trn // A transition string, which is mutable and write unique.
-String ref // A string reference, which is mutable.
-String val // A string value, which is globally immutable.
-String box // A string box, which is locally immutable.
-String tag // A string tag, which is opaque.
+<pre><code>String iso // An isolated string
+String trn // A transition string
+String ref // A string reference
+String val // A string value
+String box // A string box
+String tag // A string tag
 </code></pre>
 
-<p><strong>What does it mean when a type doesn't specify a capability?</strong> It means you are using the <em>default</em> capability for that type. When you define a type, if you don't specify the default capability, it's <code>ref</code>, but you can set it to anything convenient. Here's an example from the standard library:</p>
+<p><strong>What does it mean when a type doesn't specify a capability?</strong> It means you are using the <em>default</em> capability for that type, which is defined along with the type. Here's an example from the standard library:</p>
 <pre><code>class String val
 </code></pre>
 
 <p>When we use a <code>String</code> we usually mean a string value, so we make <code>val</code> the default capability for <code>String</code>.</p>
+<p><strong>So do I have to specify a capability when I define a type?</strong> Only if you want to. There are sensible default defaults that most types will use. These are <code>ref</code> for classes, <code>val</code> for primitives and <code>tag</code> for actors.</p>
 
             </div>
           </div>
