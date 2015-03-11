@@ -433,7 +433,7 @@
 <p>We're going to talk about capability guarantees in terms of what's <em>denied</em>. By this, we mean: what can other variables <em>not</em> do when you have a variable with a certain capability?</p>
 <p>We need to distinguish between the actor that contains the variable in question and <em>other</em> actors.</p>
 <p>This is important because data reads and writes from other actors may occur concurrently. If two actors can both read the same data and one of them changes it then it will change under the feet of the other actor. This leads to data-races and the need for locks. By ensuring this situation can never occur Pony eliminates the need for locks.</p>
-<p>All code within any one actor always executes concurrently. This means that data accesses from multiple variables within a single actor do not suffer from data-races.</p>
+<p>All code within any one actor always executes sequentially. This means that data accesses from multiple variables within a single actor do not suffer from data-races.</p>
 <h1 id="mutable-capabilities">Mutable capabilities</h1>
 <p>The <strong>mutable</strong> capabilities are <code>iso</code>, <code>trn</code> and <code>ref</code>. These capabilities are <strong>mutable</strong> because they can be used to both read from and write to an object.</p>
 <ul>
