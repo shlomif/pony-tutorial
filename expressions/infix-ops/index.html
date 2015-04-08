@@ -485,25 +485,99 @@ class Foo
 <p>Since Pony does not allow overloading of functions by argument type, each type can only have a single <code>add</code> function. It is possible to overload infix operators to some degree using union types or f-bounded polymorphism, but this is beyond the scope of this tutorial. See the Pony standard library for further information.</p>
 <p>You do not have to worry about any of this if you don't want to. You can simply use the existing infix operators for numbers just like any other language and not provide them for your own types.</p>
 <p>The full list of infix operators that are aliases for functions is:</p>
-<pre>
-+    add()      Addition
--    sub()      Subtraction
-*    mul()      Multiplication
-/    div()      Division
-%    mod()      Modulus
-<<   shl()      Left bit shift
->>   shr()      Right bit shift
-and  op_and()   And, both bitwise and logical
-or   op_or()    Or, both bitwise and logical
-xor  op_xor()   Xor, both bitwise and logical
-==   eq()       Equality
-!=   ne()       Non-equality
-<    lt()       Less then
-<=   le()       Less than or equal
->=   ge()       Greater than or equal
->    gt()       Greater than
-</pre>
-
+<hr />
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+</td>
+<td>add()</td>
+<td>Addition</td>
+</tr>
+<tr>
+<td>-</td>
+<td>sub()</td>
+<td>Subtraction</td>
+</tr>
+<tr>
+<td>*</td>
+<td>mul()</td>
+<td>Multiplication</td>
+</tr>
+<tr>
+<td>/</td>
+<td>div()</td>
+<td>Division</td>
+</tr>
+<tr>
+<td>%</td>
+<td>mod()</td>
+<td>Modulus</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>shl()</td>
+<td>Left bit shift</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>shr()</td>
+<td>Right bit shift</td>
+</tr>
+<tr>
+<td>and</td>
+<td>op_and()</td>
+<td>And, both bitwise and logical</td>
+</tr>
+<tr>
+<td>or</td>
+<td>op_or()</td>
+<td>Or, both bitwise and logical</td>
+</tr>
+<tr>
+<td>xor</td>
+<td>op_xor()</td>
+<td>Xor, both bitwise and logical</td>
+</tr>
+<tr>
+<td>==</td>
+<td>eq()</td>
+<td>Equality</td>
+</tr>
+<tr>
+<td>!=</td>
+<td>ne()</td>
+<td>Non-equality</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>lt()</td>
+<td>Less then</td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>le()</td>
+<td>Less than or equal</td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>ge()</td>
+<td>Greater than or equal</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>gt()</td>
+<td>Greater than</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <h1 id="short-circuiting">Short circuiting</h1>
 <p>The <code>and</code> and <code>or</code> operators use <strong>short circuiting</strong> when used with Bool operators. This means that the first operand is always evaluated, but the second is only evaluated if it can affect the result.</p>
 <p>For <code>and</code>, if the first operand is <strong>false</strong> then the second operand is not evaluated, since it cannot affect the result.</p>
@@ -516,10 +590,29 @@ x.neg()
 </code></pre>
 
 <p>The full list of unary operators that are aliases for functions is:</p>
-<pre><code class="pony">-    neg()      Arithmetic negation
-!    op_not()   Not, both bitwise and logical
-</code></pre>
-
+<hr />
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-</td>
+<td>neg()</td>
+<td>Arithmetic negation</td>
+</tr>
+<tr>
+<td>!</td>
+<td>op_not()</td>
+<td>Not, both bitwise and logical</td>
+</tr>
+</tbody>
+</table>
+<hr />
 
             </div>
           </div>
