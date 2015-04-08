@@ -14,12 +14,14 @@
   <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="../../css/highlight.css">
+  <link href="../../css/highlight.css" rel="stylesheet">
   <link href="../../css/theme_extra.css" rel="stylesheet">
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
   <script type="text/javascript" src="../../js/highlight.pack.js"></script>
   <script src="../../js/theme.js"></script>
+  <script src="../../js/highlight.pack.js"></script>
 
   <style>
     body {font-size: 90%;}
@@ -468,7 +470,7 @@
 <p>Here, we have two constructors, one that creates a <code>Wombat</code> that isn't hungry, and another that creates a <code>Wombat</code> that might be hungry or might not.</p>
 <p><strong>What's with the single quote thing, i.e. name'?</strong> You can use single quotes in parameter and local variable names. In mathematics, it's called a <em>prime</em>, and it's used to say "another one of these, but not the same one". Basically, it's just convenient.</p>
 <h3 id="everything-has-to-get-set-in-a-constructor">Everything has to get set in a constructor</h3>
-<p>Every constructor has to set every field in an object. If it doesn't, the compiler will give you an error. Since there is no <code>null</code> in Pony, we can't do what Java, C# and many other languages do and just assign either <code>null</code> or zero to every field before the constructor runs, and since we don't want random crashes, we don't leave fields undefined, like C or C++.</p>
+<p>Every constructor has to set every field in an object. If it doesn't, the compiler will give you an error. Since there is no <code>null</code> in Pony, we can't do what Java, C# and many other languages do and just assign either <code>null</code> or zero to every field before the constructor runs, and since we don't want random crashes, we don't leave fields undefined (unlike C or C++).</p>
 <h3 id="field-initialisers">Field initialisers</h3>
 <p>Sometimes it's convenient to set a field the same way for all constructors.</p>
 <pre><code>class Wombat
