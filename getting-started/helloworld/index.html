@@ -428,7 +428,7 @@
           <div role="main">
             <div class="section">
               <p>Our first program will be a very traditional one. We're going to print "Hello, world!". First, create a directory called <code>helloworld</code>:</p>
-<pre><code>$ mkdir helloworld
+<pre><code class="bash">$ mkdir helloworld
 $ cd helloworld
 </code></pre>
 
@@ -437,14 +437,14 @@ $ cd helloworld
 <p>Then, create a file in that directory called <code>main.pony</code>. </p>
 <p><strong>Does the name of the file matter?</strong> Not to the compiler, no. Pony doesn't care about filenames other than that they end in <code>.pony</code>. But it might matter to you! By giving files good names, it can be easier to find the code you're looking for later.</p>
 <p>In your file, put the following code:</p>
-<pre><code>actor Main
+<pre><code class="pony">actor Main
   new create(env: Env) =&gt;
     env.out.print(&quot;Hello, world!&quot;)
 </code></pre>
 
 <h1 id="compiling-the-program">Compiling the program</h1>
 <p>Now compile it:</p>
-<pre><code>$ ponyc
+<pre><code class="bash">$ ponyc
 Building .
 Building builtin
 Generating
@@ -457,7 +457,7 @@ Linking ./helloworld
 <p><strong>Wait, it linked too?</strong> Yes. You won't need a build system (like <code>make</code>) for Pony. It handles that for you (including handling the order of dependencies when you link to C libraries, but we'll get to that later).</p>
 <h1 id="running-the-program">Running the program</h1>
 <p>Now we can run the program:</p>
-<pre><code>$ ./helloworld
+<pre><code class="bash">$ ./helloworld
 Hello, world!
 </code></pre>
 

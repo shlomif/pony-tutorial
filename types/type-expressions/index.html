@@ -434,47 +434,47 @@
 <p>There are three kinds of type expression: <strong>tuples</strong>, <strong>unions</strong>, and <strong>intersections</strong>.</p>
 <h1 id="tuples">Tuples</h1>
 <p>A <strong>tuple</strong> is a sequence of types. For example, if we wanted something that was a <code>String</code> followed by a <code>U64</code>, we would write this:</p>
-<pre><code>var x: (String, U64)
+<pre><code class="pony">var x: (String, U64)
 x = (&quot;hi&quot;, 3)
 x = (&quot;bye&quot;, 7)
 </code></pre>
 
 <p>All type expressions are written in parentheses, and the elements of a tuple are separated by a comma. We can also destructure a tuple using assignment:</p>
-<pre><code>(var y, var z) = x
+<pre><code class="pony">(var y, var z) = x
 </code></pre>
 
 <p>Or we can access the elements of a tuple directly:</p>
-<pre><code>var y = x._1
+<pre><code class="pony">var y = x._1
 var z = x._2
 </code></pre>
 
 <p>Note that there's no way to assign to an element of a tuple. Instead, you can just reassign the entire tuple, like this:</p>
-<pre><code>x = (&quot;wombat&quot;, x._2)
+<pre><code class="pony">x = (&quot;wombat&quot;, x._2)
 </code></pre>
 
 <p><strong>Why use a tuple instead of a class?</strong> Tuples are a way to express a collection of values that doesn't have any associated code or expected behaviour. Basically, if you just need a quick collection of things, maybe to return more than one value from a function for example, you can use a tuple.</p>
 <h1 id="unions">Unions</h1>
 <p>A <strong>union</strong> type is written like a <strong>tuple</strong>, but it uses a <code>|</code> (pronounced "or" when reading the type) instead of a <code>,</code> between its elements. Where a tuple represents a collection of values, a union represents a <em>single</em> value that can be any of the specified types.</p>
 <p>Unions can be used for tons of stuff that require multiple concepts in other languages. For example, optional values, enumerations, marker values, and more.</p>
-<pre><code>var x: (String | None)
+<pre><code class="pony">var x: (String | None)
 </code></pre>
 
 <p>Here we have an example of using a union to express an optional type, where <code>x</code> might be a <code>String</code>, but it also might be <code>None</code>.</p>
 <h1 id="intersections">Intersections</h1>
 <p>An <strong>intersection</strong> uses a <code>&amp;</code> (pronounced "and" when reading the type) between its elements. It represents the exact opposite of a union: it is a <em>single</em> value that is <em>all</em> of the specified types, at the same time!</p>
 <p>This can be very useful for combining traits or interfaces, for example. Here's something from the standard library:</p>
-<pre><code>type Map[K: (Hashable box &amp; Comparable[K] box), V] is HashMap[K, V, HashEq[K]]
+<pre><code class="pony">type Map[K: (Hashable box &amp; Comparable[K] box), V] is HashMap[K, V, HashEq[K]]
 </code></pre>
 
 <p>That's a fairly complex type alias, but let's look at the constraint of <code>K</code>. It's <code>(Hashable box &amp; Comparable[K] box)</code>, which means <code>K</code> is <code>Hashable</code> <em>and</em> it is <code>Comparable[K]</code>, at the same time.</p>
 <h1 id="combining-type-expressions">Combining type expressions</h1>
 <p>Type expressions can be combined into more complex types. Here's another example from the standard library:</p>
-<pre><code>var _array: Array[((K, V) | _MapEmpty | _MapDeleted)]
+<pre><code class="pony">var _array: Array[((K, V) | _MapEmpty | _MapDeleted)]
 </code></pre>
 
 <p>Here we have an array where each element is either a tuple of <code>(K, V)</code> or a <code>_MapEmpty</code> or a <code>_MapDeleted</code>.</p>
 <p>Because every type expression has parentheses around it, they are actually easy to read once you get the hang of it. However, if you use a complex type expression often, it can be nice to provide a type alias for it.</p>
-<pre><code>type Number is (Signed | Unsigned | Float)
+<pre><code class="pony">type Number is (Signed | Unsigned | Float)
 
 type Signed is (I8 | I16 | I32 | I64 | I128)
 

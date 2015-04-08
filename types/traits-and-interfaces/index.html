@@ -438,7 +438,7 @@
 <p>The core idea is that you have a type that declares it has a relationship to some category type. In Java, for example, a <strong>class</strong> (a concrete type) can <strong>implement</strong> an <strong>interface</strong> (a category type). In Java, this means the class is now in the category that the interface represents. The compiler will check that the class actually provides everything it needs to.</p>
 <h1 id="traits">Traits</h1>
 <p>Pony has nominal subtyping, using <strong>traits</strong>. A <strong>trait</strong> looks a bit like a <strong>class</strong>, but it uses the keyword <code>trait</code> and it can't have any fields.</p>
-<pre><code>trait Named
+<pre><code class="pony">trait Named
   fun name(): String =&gt; &quot;Bob&quot;
 
 class Bob is Named
@@ -447,7 +447,7 @@ class Bob is Named
 <p>Here, we have a trait <code>Named</code> that has a single function <code>name</code> that returns a String. It also provides a default implementation of <code>name</code> that returns the string literal "Bob".</p>
 <p>We also have a class <code>Bob</code> that says it <code>is Named</code>. This means <code>Bob</code> is in the <code>Named</code> category. In Pony, we say <em>Bob provides Named</em>, or sometimes simply <em>Bob is Named</em>.</p>
 <p>Since <code>Bob</code> doesn't have its own <code>name</code> function, it uses the one from the trait. If the trait's function didn't have a default implementation, the compiler would complain that <code>Bob</code> had no implementation of <code>name</code>.</p>
-<pre><code>class Larry
+<pre><code class="pony">class Larry
   fun name(): String =&gt; &quot;Larry&quot;
 </code></pre>
 
@@ -459,7 +459,7 @@ class Bob is Named
 <p>If you've used Go, you'll recognise that Go interfaces are structural types.</p>
 <h1 id="interfaces">Interfaces</h1>
 <p>Pony has structural subtyping too, using <strong>interfaces</strong>. Interfaces look like traits, but they use the keyword <code>interface</code>.</p>
-<pre><code>interface HasName
+<pre><code class="pony">interface HasName
   fun name(): String
 </code></pre>
 

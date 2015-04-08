@@ -441,21 +441,21 @@
 <p>Pony is a <em>compiled</em> language, rather than an <em>interpreted</em> one. In fact, it goes even further: Pony is an <em>ahead-of-time</em> (AOT) compiled language, rather than a <em>just-in-time</em> (JIT) compiled language.</p>
 <p>What this means is that once you build your program, you can run it over and over again without needing a compiler or a virtual machine or anything else. It's a complete program, all on it's own.</p>
 <p>But it also means you need to build your program before you can run it. In an interpreted language or a JIT compiled language, you tend to do things like this to run your program:</p>
-<pre><code>$ python helloworld.py
+<pre><code class="bash">$ python helloworld.py
 </code></pre>
 
 <p>Or maybe you put a <strong>shebang</strong> in your program (like <code>#!/usr/bin/env python</code>), then <code>chmod</code> to set the executable bit, and then do:</p>
-<pre><code>$ ./helloworld.py
+<pre><code class="bash">$ ./helloworld.py
 </code></pre>
 
 <p>When you use Pony, you don't do any of that!</p>
 <h1 id="compiling-your-program">Compiling your program</h1>
 <p>If you are in the same directory as your program, you can just do:</p>
-<pre><code>$ ponyc
+<pre><code class="bash">$ ponyc
 </code></pre>
 
 <p>That tells the Pony compiler that your current working directory contains your source code, and to please compile it. If your source code is in some other directory, you can tell ponyc where it is:</p>
-<pre><code>$ ponyc path/to/my/code
+<pre><code class="bash">$ ponyc path/to/my/code
 </code></pre>
 
 <p>There are other options as well, but we'll cover those later.</p>

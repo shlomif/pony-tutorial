@@ -440,14 +440,14 @@
               <p>To do real work in a program you have to be able to make decisions, iterate through collections of items and perform actions repeatedly. For this you need control structures. Pony has control structures that will be familiar to programmers who have used most languages, such as <code>if</code>, <code>while</code> and <code>for</code>, but in Pony they work slightly differently.</p>
 <h1 id="conditionals">Conditionals</h1>
 <p>The simplest control-structure is the good old <code>if</code>. It allows you to perform some action only when a condition is true. In Pony it looks like this:</p>
-<pre><code>if a &gt; b then
+<pre><code class="pony">if a &gt; b then
   env.out.print(&quot;a is bigger&quot;)
 end
 </code></pre>
 
 <p><strong>Can I use integers and pointers for the condition like I can in C?</strong> No. In Pony <code>if</code> conditions must have type Bool, i.e. they are always true or false. If you want to test whether a number <code>a</code> is not 0, then you need to explicitly say <code>a != 0</code>. This restriction removes a whole category of potential bugs from Pony programs.</p>
 <p>If you want some alternative code for when the condition fails just add an <code>else</code>:</p>
-<pre><code>if a &gt; b then
+<pre><code class="pony">if a &gt; b then
   env.out.print(&quot;a is bigger&quot;)
 else
   env.out.print(&quot;a is not bigger&quot;)
@@ -455,7 +455,7 @@ end
 </code></pre>
 
 <p>Often you want to test more than condition in one go, giving you more than two possible outcomes. You can nest <code>if</code> statements, but this quickly gets ugly:</p>
-<pre><code>if a == b then
+<pre><code class="pony">if a == b then
   env.out.print(&quot;they are the same&quot;)
 else
   if a &gt; b then
@@ -467,7 +467,7 @@ end
 </code></pre>
 
 <p>As an alternative Pony provides the <code>elseif</code> keyword that combines an <code>else</code> and an <code>if</code>. This works the same as saying <code>else if</code> in other languages and you can have as many <code>elseif</code>s as you like for each <code>if</code>.</p>
-<pre><code>if a == b then
+<pre><code class="pony">if a == b then
   env.out.print(&quot;they are the same&quot;)
 elseif a &gt; b then
   env.out.print(&quot;a is bigger&quot;)
@@ -477,7 +477,7 @@ end
 </code></pre>
 
 <p><strong>Why can't I just say "else if" like I do in C? Why the extra keyword?</strong> The relationship between <code>if</code> and <code>else</code> in C, and other similar languages, is ambiguous. For example:</p>
-<pre><code>// C code
+<pre><code class="C">// C code
 if(a)
   if(b)
     printf(&quot;a and b\n&quot;);
@@ -490,12 +490,12 @@ else
 <p>The big difference for control structures between Pony and other languages is that in Pony everything is an expression. In languages like C++ and Java <code>if</code> is a statement, not an expression. This means that you can't have an <code>if</code> inside an expression, there has to be a separate conditional operator '?'.</p>
 <p>In Pony there are no statements there are only expressions, everything hands back a value. Your <code>if</code> statement hands you back a value. Your <code>for</code> loop (which we'll get to a bit later) hands you back a value. </p>
 <p>This means you can use <code>if</code> directly in a calculation:</p>
-<pre><code>x = 1 + if lots then 100 else 2 end
+<pre><code class="pony">x = 1 + if lots then 100 else 2 end
 </code></pre>
 
 <p>This will give <strong>x</strong> a value of either 3 or 101, depending on the variable <strong>lots</strong>.</p>
 <p>If the <code>then</code> and <code>else</code> branches of an <code>if</code> produce different types then the <code>if</code> produces a <strong>union</strong> of the two.</p>
-<pre><code>var x: (String | Bool) =
+<pre><code class="pony">var x: (String | Bool) =
   if friendly then
     &quot;Hello&quot;
   else
@@ -504,7 +504,7 @@ else
 </code></pre>
 
 <p><strong>But what if my if doesn't have an else?</strong> Any <code>else</code> branch that doesn't exist gives an implicit <code>None</code>.</p>
-<pre><code>var x: (String | None) =
+<pre><code class="pony">var x: (String | None) =
   if friendly then
     &quot;Hello&quot;
   end
@@ -516,7 +516,7 @@ else
 <h2 id="while">While</h2>
 <p>Pony <code>while</code> loops are very similar to those in other languages. A condition expression is evaluated and if it's true we execute the code inside the loop. When we're done we evaluate the condition again and keep going until it's false.</p>
 <p>Here's an example that prints out the numbers 1 to 10:</p>
-<pre><code>var count: U32 = 1
+<pre><code class="pony">var count: U32 = 1
 
 while count &lt;= 10 do
   env.out.print(count)
@@ -531,7 +531,7 @@ end
 <p>Sometimes you want to stop part-way through a loop and give up altogether. Pony has the <code>break</code> keyword for this and it is very similar to its counterpart in langauges like C++, C# and Python.</p>
 <p><code>break</code> immediately exits from the innermost loop it's in. Since the loop has to return a value <code>break</code> can take an expression. This is optional and if it's missed out a value of <code>None</code> is returned.</p>
 <p>Let's have an example. Suppose you want to go through a list of names you're getting from somewhere, looking for either "Jack" or "Jill". If neither of those appear you'll just take the last name you're given and if you're not given any names at all you'll use "Herbert".</p>
-<pre><code>var name =
+<pre><code class="pony">var name =
   while moreNames() do
     var name' = getName()
     if name' == &quot;Jack&quot; or name' == &quot;Jill&quot; then
@@ -556,20 +556,20 @@ end
 <p>For iterating over a collection of items Pony uses the <code>for</code> keyword. This is very similar to <code>foreach</code> in C#, <code>for</code>..<code>in</code> in Python and <code>for</code> in Java when used with a collection. It is very different to <code>for</code> in C and C++.</p>
 <p>The Pony <code>for</code> loop iterates over a collection of items using an iterator. On each iteration round the loop we ask the iterator if there are any more elements to process and if there are we ask it for the next one.</p>
 <p>For example to print out all the strings in an array:</p>
-<pre><code>for name in [&quot;Bob&quot;, &quot;Fred&quot;, &quot;Sarah&quot;].values() do
+<pre><code class="pony">for name in [&quot;Bob&quot;, &quot;Fred&quot;, &quot;Sarah&quot;].values() do
   env.out.print(name)
 end
 </code></pre>
 
 <p>Note the call to <code>values()</code> on the array, this is because the loop needs an iterator not an array.</p>
 <p>The iterator does not have to be of any particular type, but needs to provide the following methods:</p>
-<pre><code>  fun has_next(): Bool
+<pre><code class="pony">  fun has_next(): Bool
   fun next(): T?
 </code></pre>
 
 <p>where T is the type of the objects in the collection. You don't need to worry about this unless you're writing your own iterators. To use existing collections, such as those provided in the standard library, you can just use <code>for</code> and it will all work. If you do write your own iterators note that we use structural typing, so your iterator doesn't need to declare that it provides any particular type.</p>
 <p>You can think of the above example as being equivalent to:</p>
-<pre><code>let iterator = [&quot;Bob&quot;, &quot;Fred&quot;, &quot;Sarah&quot;].values()
+<pre><code class="pony">let iterator = [&quot;Bob&quot;, &quot;Fred&quot;, &quot;Sarah&quot;].values()
 while iterator.has_next() do
   let name = iterator.next()
   env.out.print(name)
@@ -587,7 +587,7 @@ end
 <li>The termination condition is reversed.</li>
 </ol>
 <p>Suppose we're trying to create something and we want to keep trying until it's good enough:</p>
-<pre><code>repeat
+<pre><code class="pony">repeat
   var present = makePresent()
 until present.marksOutOfTen() &gt; 7 end
 </code></pre>

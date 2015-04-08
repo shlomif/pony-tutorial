@@ -431,7 +431,7 @@
           <div role="main">
             <div class="section">
               <p>Just like other object-oriented language, Pony has <strong>classes</strong>. A class is declared with the keyword <code>class</code>, and it has to have a name that starts with a capital letter, like this:</p>
-<pre><code>class Wombat
+<pre><code class="pony">class Wombat
 </code></pre>
 
 <p><strong>Do all types start with a capital letter?</strong> Yes! And nothing else starts with a capital letter. So when you see a name in Pony code, you will instantly know whether it's a type or not.</p>
@@ -444,7 +444,7 @@
 </ol>
 <h2 id="fields">Fields</h2>
 <p>These are just like fields in C structs or fields in classes in C++, C#, Java, Python, Ruby, or basically any language, really. There are two kinds of fields: var fields and let fields. A var field can be assigned to over and over again, but a let field is assigned to in the constructor and never again.</p>
-<pre><code>class Wombat
+<pre><code class="pony">class Wombat
   let name: String
   var _hunger_level: U64
 </code></pre>
@@ -454,7 +454,7 @@
 <h2 id="constructors">Constructors</h2>
 <p>Pony constructors have names. Other than that, they are just like constructors in other languages. They can have parameters, and they always return a new instance of the type. Since they have names, you can have more than one constructor for a type.</p>
 <p>Constructors are introduced with the <strong>new</strong> keyword.</p>
-<pre><code>class Wombat
+<pre><code class="pony">class Wombat
   let name: String
   var _hunger_level: U64
 
@@ -473,7 +473,7 @@
 <p>Every constructor has to set every field in an object. If it doesn't, the compiler will give you an error. Since there is no <code>null</code> in Pony, we can't do what Java, C# and many other languages do and just assign either <code>null</code> or zero to every field before the constructor runs, and since we don't want random crashes, we don't leave fields undefined (unlike C or C++).</p>
 <h3 id="field-initialisers">Field initialisers</h3>
 <p>Sometimes it's convenient to set a field the same way for all constructors.</p>
-<pre><code>class Wombat
+<pre><code class="pony">class Wombat
   let name: String
   var _hunger_level: U64
   var _thirst_level: U64 = 1
@@ -490,7 +490,7 @@
 <p>Here, every <code>Wombat</code> begins a little bit thirsty, regardless of which constructor is called.</p>
 <h2 id="functions">Functions</h2>
 <p>Functions in Pony are like methods in Java, C#, C++, Ruby, Python, or pretty much any other object oriented language. They are introduced with the keyword <code>fun</code>. They can have parameters, like constructors do, and they can also have a result type (if no result type is given, it defaults to <code>None</code>).</p>
-<pre><code>class Wombat
+<pre><code class="pony">class Wombat
   let name: String
   var _hunger_level: U64
   var _thirst_level: U64 = 1
@@ -521,13 +521,13 @@
 <p>It returns the <em>old</em> value of <code>_hunger_level</code>.</p>
 <p><strong>Wait, seriously? The <em>old</em> value?</strong> Yes. In Pony, assignment is an expression rather than a statement. That means it has a result. This is true of a lot of languages, but they tend to return the <em>new</em> value. In other words, given <code>a = b</code>, in most languages, the value of that is the value of <code>b</code>. But in Pony, the value of that is the <em>old</em> value of <code>a</code>.</p>
 <p><strong>...why?</strong> It's called a "destructive read", and it lets you do awesome things with a capabilities type system. We'll talk about that more later. For now, we'll just mention that you can also use it to implement a <em>swap</em> operation. In most languages, to swap the values of <code>a</code> and <code>b</code> you need to do something like:</p>
-<pre><code>var temp = a
+<pre><code class="pony">var temp = a
 a = b
 b = temp
 </code></pre>
 
 <p>In Pony, you can just do:</p>
-<pre><code>a = b = a
+<pre><code class="pony">a = b = a
 </code></pre>
 
 <h1 id="what-about-inheritance">What about inheritance?</h1>

@@ -437,14 +437,14 @@
 <h1 id="local-variables">Local variables</h1>
 <p>Local variables in Pony work very much as they do in other languages, allowing you to store temporary values while you perform calculations. Local variables live within a chunk of code (they are <em>local</em> to that chunk) and are created every time that code chunk executes and disposed of when it completes.</p>
 <p>To define a local variable the <code>var</code> keyword is used (<code>let</code> can also be used, but we'll get to that later). Right after the <code>var</code> comes the variable's name, and then you can (optionally) put a <code>:</code> followed by the variable's type. For example:</p>
-<pre><code>var x: String = &quot;Hello&quot;
+<pre><code class="pony">var x: String = &quot;Hello&quot;
 </code></pre>
 
 <p>Here, we're assigning the <strong>string literal</strong> <code>"Hello"</code> to <code>x</code>.</p>
 <p>You don't have to give a value to the variable when you define it: you can assign one later if you prefer. If you try to read the value from a variable before you've assigned one, the compiler will complain instead of allowing the dreaded <em>uninitialised variable</em> bug.</p>
 <p>Every variable has a type, but you don't have to specify it in the declaration if you provide an initial value. The compiler will automatically use the type of the initial value for the variable.</p>
 <p>The following definitions of <code>x</code>, <code>y</code> and <code>z</code> are all effectively identical.</p>
-<pre><code>var x: String = &quot;Hello&quot;
+<pre><code class="pony">var x: String = &quot;Hello&quot;
 
 var y = &quot;Hello&quot;
 
@@ -455,7 +455,7 @@ z = &quot;Hello&quot;
 <p><strong>Can I miss out both the type and initial value for a variable?</strong> No. The compiler will complain that it can't figure out a type for that variable.</p>
 <p>All local variable names start with a lower case letter. If you want to you can end them with a <em>prime</em> <code>'</code> (or more than one) which is useful when you need a second variable with almost the same meaning as the first. For example you might have one variable called <code>time</code> and another called <code>time'</code>.</p>
 <p>The chunk of code that a variable lives in is known as its <strong>scope</strong>. Exactly what its scope is depends on where it is defined. For example, the scope of a variable defined within the <code>then</code> expression of an <code>if</code> statement is that <code>then</code> expression. We haven't looked at <code>if</code> statements yet, but they're very similar to every other language.</p>
-<pre><code>if a &gt; b then
+<pre><code class="pony">if a &gt; b then
   var x = &quot;a is bigger&quot;
   env.out.print(x)  // OK
 end
@@ -466,7 +466,7 @@ env.out.print(x)  // Illegal
 <p>Variables only exists from when they are defined until the end of the current scope. For our variable <code>x</code> this is the <code>end</code> at the end of the then expression: after that it cannot be used.</p>
 <h1 id="var-vs-let">Var vs. let</h1>
 <p>Local variables are declared with either a <code>var</code> or a <code>let</code>. Using <code>var</code> means the variable can be assigned and reassigned as many times as you like. Using <code>let</code> means the variable can only be assigned once.</p>
-<pre><code>var x: U32 = 3
+<pre><code class="pony">var x: U32 = 3
 let y: U32 = 4
 x = 5  // OK
 y = 6  // Error, y is let

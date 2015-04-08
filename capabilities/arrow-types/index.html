@@ -431,7 +431,7 @@
 <p>When that happens, we can write a <strong>viewpoint adapted type</strong>, which we call an <strong>arrow type</strong> because we write it with an <code>-&gt;</code>.</p>
 <h1 id="using-this-as-a-viewpoint">Using <code>this-&gt;</code> as a viewpoint</h1>
 <p>A function with a <code>box</code> receiver can be called with a <code>ref</code> receiver or a <code>val</code> receiver as well, since those are both subtypes of <code>box</code>. Sometimes, we want to be able to talk about a type takes this into account. For example:</p>
-<pre><code>class Wombat
+<pre><code class="pony">class Wombat
   var _friend: Wombat
 
   fun friend(): this-&gt;Wombat =&gt; _friend
@@ -445,7 +445,7 @@
 <h1 id="using-a-type-parameter-as-a-viewpoint">Using a type parameter as a viewpoint</h1>
 <p>We haven't covered generics yet, so this may seem a little weird. We'll cover this again when we talk about generics (i.e. parameterised types), but we're mentioning it here for completeness.</p>
 <p>Another time we don't know the precise capability of something is if we are using a type parameter. Here's an example from the standard library:</p>
-<pre><code>class ListValues[A, N: ListNode[A] box] is Iterator[N-&gt;A]
+<pre><code class="pony">class ListValues[A, N: ListNode[A] box] is Iterator[N-&gt;A]
 </code></pre>
 
 <p>Here, we have a <code>ListValues</code> type that has two type parameters, <code>A</code> and <code>N</code>. In addition, <code>N</code> has a constraint: it has to be a subtype of <code>ListNode[A] box</code>. That's all fine and well, but we also say the <code>ListValues[A, N]</code> provides <code>Iterator[N-&gt;A]</code>. That's the interesting bit: we provide an interface that let's us iterate over values of the type <code>N-&gt;A</code>.</p>
@@ -453,7 +453,7 @@
 <h1 id="using-box-as-a-viewpoint">Using <code>box-&gt;</code> as a viewpoint</h1>
 <p>There's one more way we use arrow types, and it's also related to generics. Sometimes we want to talk about a type parameter as it is seen by some unknown type, <em>as long as that type can read the type parameter</em>.</p>
 <p>In other words, the unknown type will be a subtype of <code>box</code>, but that's all we know. Here's an example from the standard library:</p>
-<pre><code>interface Comparable[A: Comparable[A] box]
+<pre><code class="pony">interface Comparable[A: Comparable[A] box]
   fun eq(that: box-&gt;A): Bool =&gt; this is that
   fun ne(that: box-&gt;A): Bool =&gt; not eq(that)
 </code></pre>

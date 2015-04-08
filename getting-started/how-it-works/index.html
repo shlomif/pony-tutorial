@@ -431,21 +431,21 @@
           <div role="main">
             <div class="section">
               <p>Let's look at our <code>helloworld</code> code again:</p>
-<pre><code>actor Main
+<pre><code class="pony">actor Main
   new create(env: Env) =&gt;
     env.out.print(&quot;Hello, world!&quot;)
 </code></pre>
 
 <p>Let's go through that line by line.</p>
 <h1 id="line-1">Line 1</h1>
-<pre><code>actor Main
+<pre><code class="pony">actor Main
 </code></pre>
 
 <p>This is a <strong>type declaration</strong>. The keyword <code>actor</code> means we are going to define an actor, which is a bit like a class in Python, Java, C#, C++, etc. Pony has classes too, which we'll see later.</p>
 <p>The difference between an actor and a class is that an actor can have <strong>asynchronous</strong> methods, called <strong>behaviours</strong>. We'll talk more about that later.</p>
 <p>A Pony program has to have a <code>Main</code> actor. It's kind of like the <code>main</code> function in C or C++, or the <code>main</code> method in Java, or the <code>Main</code> method in C#. It's where the action starts.</p>
 <h1 id="line-2">Line 2</h1>
-<pre><code>  new create(env: Env) =&gt;
+<pre><code class="pony">  new create(env: Env) =&gt;
 </code></pre>
 
 <p>This is a <strong>constructor</strong>. The keyword <code>new</code> means it's a function that creates a new instance of the type. In this case, it creates a new <strong>Main</strong>.</p>
@@ -455,7 +455,7 @@
 <p>It turns out, our <code>Main</code> actor <strong>has</strong> to have a constructor called <code>create</code> that takes a single parameter of type <code>Env</code>. That's how all programs start! So the beginning of your program is essentially the body of that constructor.</p>
 <p><strong>Wait, what's the body?</strong> It's the code that comes after the <code>=&gt;</code>.</p>
 <h1 id="line-3">Line 3</h1>
-<pre><code>    env.out.print(&quot;Hello, world!&quot;)
+<pre><code class="pony">    env.out.print(&quot;Hello, world!&quot;)
 </code></pre>
 
 <p>This is your program! What the heck is it doing?</p>

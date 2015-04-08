@@ -431,7 +431,7 @@
 <p>We'll give a couple examples of using type aliases, just to get the feel of them.</p>
 <h1 id="enumerations">Enumerations</h1>
 <p>One way to use type aliases is to express an enumeration. For example, imagine we want to say something must either be Red, Blue or Green. We could write something like this:</p>
-<pre><code>primitive Red
+<pre><code class="pony">primitive Red
 primitive Blue
 primitive Green
 
@@ -443,7 +443,7 @@ type Colour is (Red | Blue | Green)
 <p>A union type is a form of <em>closed world</em> type. That is, it says every type that can possibly be a member of it. In contrast, object-oriented subtyping is usually <em>open world</em>, e.g. in Java, an interface can be implemented by any number of classes.</p>
 <h1 id="complex-types">Complex types</h1>
 <p>If a type is complicated, it can be nice to give it a mnemonic name. For example, if we want to say that a type must implement more than one trait, we could say:</p>
-<pre><code>interface HasName
+<pre><code class="pony">interface HasName
   fun name(): String
 
 interface HasAge
@@ -458,17 +458,17 @@ type Person is (HasName &amp; HasAge &amp; HasAddress)
 <p>There's another new concept here: the type has a <code>&amp;</code> in it. This is similar to the <code>|</code> of a <strong>union</strong> type: it means this is an <strong>intersection</strong> type. That is, it's something that must be <em>all</em> of <code>HasName</code>, <code>HasAge</code> <em>and</em> <code>HasAddress</code>.</p>
 <p>But the use of <code>type</code> here is exactly the same as the enumeration example above, it's just providing a name for a type that is otherwise a bit tedious to type out over and over.</p>
 <p>Another example, this time from the standard library, is <code>SetIs</code>. Here's the actual definition:</p>
-<pre><code>type SetIs[A] is HashSet[A, HashIs[A!]]
+<pre><code class="pony">type SetIs[A] is HashSet[A, HashIs[A!]]
 </code></pre>
 
 <p>Again there's something new here. After the name <code>SetIs</code> comes the name <code>A</code> in square brackets. That's because <code>SetIs</code> is a <strong>generic type</strong>. That is, you can give a <code>SetIs</code> another type as a parameter, to make specific kinds of set. If you've used Java or C#, this will be pretty familiar. If you've used C++, the equivalent concept is templates, but they work quite differently.</p>
 <p>And again the use of <code>type</code> just provides a more convenient way to refer to the type we're aliasing:</p>
-<pre><code>HashSet[A, HashIs[A!]]
+<pre><code class="pony">HashSet[A, HashIs[A!]]
 </code></pre>
 
 <p>That's another <strong>generic type</strong>. It means a <code>SetIs</code> is really a kind of <code>HashSet</code>. Another concept has snuck in, which is <code>!</code> types. This is a type that is the <strong>alias</strong> of another type. That's tricky stuff that you only need when writing complex generic types, so we'll leave it for later.</p>
 <p>One more example, again from the standard library, is the <code>Map</code> type that gets used a lot. It's actually a type alias. Here's the real definition of <code>Map</code>:</p>
-<pre><code>type Map[K: (Hashable box &amp; Comparable[K] box), V] is HashMap[K, V, HashEq[K]]
+<pre><code class="pony">type Map[K: (Hashable box &amp; Comparable[K] box), V] is HashMap[K, V, HashEq[K]]
 </code></pre>
 
 <p>Unlike our previous example the first type parameter, <code>K</code>, has a type associated with it. This is a <strong>constraint</strong>, which means when you parameterise a <code>Map</code>, the type you pass for <code>K</code> must be a subtype of the constraint.</p>

@@ -442,11 +442,11 @@
 <li>A <code>[</code> at the beginning of a line starts a new expression (an array literal), whereas a <code>[</code> in the middle of an expression is generic formal parameters.</li>
 </ol>
 <p>That stuff may seem a little esoteric right now, but we'll explain it all later. The <code>-</code> part should make sense though.</p>
-<pre><code>a - b
+<pre><code class="pony">a - b
 </code></pre>
 
 <p>That means "subtract b from a".</p>
-<pre><code>a
+<pre><code class="pony">a
 -b
 </code></pre>
 
@@ -462,7 +462,7 @@
 <p>By convention, a docstring should be a triple-quoted string, and it should use Markdown for any formatting.</p>
 <h1 id="comments">Comments</h1>
 <p>Use <strong>docstrings</strong> first! But if you need to put some comments in the implementation of your methods, perhaps to explain what's happening on various lines, you can use C++ style comments. In Pony, block comments can be nested.</p>
-<pre><code>// This is a line comment.
+<pre><code class="pony">// This is a line comment.
 /* This is a block comment. */
 /* This block comment /* has another block comment */ inside of it. */
 </code></pre>

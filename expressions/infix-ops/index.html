@@ -431,37 +431,37 @@
           <div role="main">
             <div class="section">
               <p>Infix operators take two operands and are written between those operands. Arithmetic and comparison operators are the most common:</p>
-<pre><code>1 + 2
+<pre><code class="pony">1 + 2
 a &lt; b
 </code></pre>
 
 <p>Pony has pretty much the same set of infix operators as other langauges.</p>
 <h1 id="precedence">Precedence</h1>
 <p>When using infix operators in complex expressions a key question is the <strong>precedence</strong>, i.e. which operator is evaluated first. Given this expression:</p>
-<pre><code>1 + 2 * 3
+<pre><code class="pony">1 + 2 * 3
 </code></pre>
 
 <p>We will get a value of 9 if we evaluate the addition first and 7 if we evaluate the multiplication first. In mathematics there are rules about the order in which to evaluate operators and most programming languages follow this approach.</p>
 <p>The problem with this is that the programmer has to remember the order and people aren't very good at things like that. Most people will remember to do multiplication before addition, but what about left bit shifting versus bitwise and? Sometimes people misremember (or guess wrong) and that leads to bugs. Worse, those bugs are often very hard to spot.</p>
 <p>Pony takes a different approach and outlaws infix precedence. Any expression where more than one infix operator is used <strong>must</strong> use parentheses to remove the ambiguity. If you failure to do this the compiler will complain.</p>
 <p>This means that the example above is illegal in Pony and should be rewritten as:</p>
-<pre><code>1 + (2 * 3)
+<pre><code class="pony">1 + (2 * 3)
 </code></pre>
 
 <p>Repeated use of a single operator however is fine:</p>
-<pre><code>1 + 2 + 3
+<pre><code class="pony">1 + 2 + 3
 </code></pre>
 
 <h1 id="operator-aliasing">Operator aliasing</h1>
 <p>Most infix operators in Pony are actually aliases for functions. The left operand is the receiver the function is called on and the right operand is passed as an argument. For example the following expressions are equivalent:</p>
-<pre><code>x + y
+<pre><code class="pony">x + y
 x.add(y)
 </code></pre>
 
 <p>This means that <code>+</code> is not a special symbol that can only be applied to magic types. Any type can provide its own <code>add</code> function and the programmer can then use <code>+</code> with that type, if they want to.</p>
 <p>When defining your own <code>add</code> function there is no restriction on the types of the parameter or the return type. The right side of the <code>+</code> will have to match the parameter type and the whole <code>+</code> expression will have the type that <code>add</code> returns.</p>
 <p>Here's a full example for defining a type which allows use of <code>+</code>. This is all you need:</p>
-<pre><code>// Define a suitable type
+<pre><code class="pony">// Define a suitable type
 class Pair
   var _x: U32 = 0
   var _y: U32 = 0
@@ -485,23 +485,24 @@ class Foo
 <p>Since Pony does not allow overloading of functions by argument type, each type can only have a single <code>add</code> function. It is possible to overload infix operators to some degree using union types or f-bounded polymorphism, but this is beyond the scope of this tutorial. See the Pony standard library for further information.</p>
 <p>You do not have to worry about any of this if you don't want to. You can simply use the existing infix operators for numbers just like any other language and not provide them for your own types.</p>
 <p>The full list of infix operators that are aliases for functions is:</p>
-<pre><code>+    add()      Addition
+<pre>
++    add()      Addition
 -    sub()      Subtraction
 *    mul()      Multiplication
 /    div()      Division
 %    mod()      Modulus
-&lt;&lt;   shl()      Left bit shift
-&gt;&gt;   shr()      Right bit shift
+<<   shl()      Left bit shift
+>>   shr()      Right bit shift
 and  op_and()   And, both bitwise and logical
 or   op_or()    Or, both bitwise and logical
 xor  op_xor()   Xor, both bitwise and logical
 ==   eq()       Equality
 !=   ne()       Non-equality
-&lt;    lt()       Less then
-&lt;=   le()       Less than or equal
-&gt;=   ge()       Greater than or equal
-&gt;    gt()       Greater than
-</code></pre>
+<    lt()       Less then
+<=   le()       Less than or equal
+>=   ge()       Greater than or equal
+>    gt()       Greater than
+</pre>
 
 <h1 id="short-circuiting">Short circuiting</h1>
 <p>The <code>and</code> and <code>or</code> operators use <strong>short circuiting</strong> when used with Bool operators. This means that the first operand is always evaluated, but the second is only evaluated if it can affect the result.</p>
@@ -510,12 +511,12 @@ xor  op_xor()   Xor, both bitwise and logical
 <p>This is a special feature built into the compiler, it cannot be used with operator aliasing for any other type.</p>
 <h1 id="unary-operators">Unary operators</h1>
 <p>The unary operators are handled in the same manor, but with only one operand. For example the following expressions are equivalent:</p>
-<pre><code>-x
+<pre><code class="pony">-x
 x.neg()
 </code></pre>
 
 <p>The full list of unary operators that are aliases for functions is:</p>
-<pre><code>-    neg()      Arithmetic negation
+<pre><code class="pony">-    neg()      Arithmetic negation
 !    op_not()   Not, both bitwise and logical
 </code></pre>
 

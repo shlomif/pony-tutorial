@@ -466,7 +466,7 @@
 <p>Note that if you have a variable referring to an actor then you can send messages to that actor regardless of what capability that variable is.</p>
 <h1 id="how-to-write-a-capability">How to write a capability</h1>
 <p>A capability comes at the end of a type. So, for example:</p>
-<pre><code>String iso // An isolated string
+<pre><code class="pony">String iso // An isolated string
 String trn // A transition string
 String ref // A string reference
 String val // A string value
@@ -475,7 +475,7 @@ String tag // A string tag
 </code></pre>
 
 <p><strong>What does it mean when a type doesn't specify a capability?</strong> It means you are using the <em>default</em> capability for that type, which is defined along with the type. Here's an example from the standard library:</p>
-<pre><code>class String val
+<pre><code class="pony">class String val
 </code></pre>
 
 <p>When we use a <code>String</code> we usually mean a string value, so we make <code>val</code> the default capability for <code>String</code>.</p>

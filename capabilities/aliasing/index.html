@@ -441,18 +441,18 @@
 <p>In Pony, that works for some capabilities, but not all.</p>
 <h1 id="aliasing-and-deny-guarantees">Aliasing and deny guarantees</h1>
 <p>The reason for this is that <code>iso</code> capabilities deny other <code>iso</code> variables that point to the same object. That is, you can only have one <code>iso</code> variable pointing to any given object. The same goes for <code>trn</code>.</p>
-<pre><code>fun test(a: Wombat iso) =&gt;
+<pre><code class="pony">fun test(a: Wombat iso) =&gt;
   var b: Wombat iso = a // Not allowed!
 </code></pre>
 
 <p>Here we have some function that gets passed an isolated Wombat. If we try to alias <code>a</code> by assigning it to <code>b</code>, we'll be breaking capability guarantees so the compiler will stop us.</p>
 <p><strong>What can I alias an <code>iso</code> as?</strong> Since an <code>iso</code> says no other variable can be used by <em>any</em> actor to read from or write to that object, we can only create aliases to an <code>iso</code> that can neither read nor write. Fortunately, we've got a capability that does exactly that: <code>tag</code>. So we can do this and the compiler will be happy:</p>
-<pre><code>fun test(a: Wombat iso) =&gt;
+<pre><code class="pony">fun test(a: Wombat iso) =&gt;
   var b: Wombat tag = a // Allowed!
 </code></pre>
 
 <p><strong>What about aliasing <code>trn</code>?</strong> Since a <code>trn</code> says no other variable can be used by <em>any</em> actor to write to that object, we need something that doesn't allow writing, but also doesn't prevent our <code>trn</code> variable from writing. Fortunately, weve got a capability that does that too: <code>box</code>. So we can do this and the compiler will be happy:</p>
-<pre><code>fun test(a: Wombat trn) =&gt;
+<pre><code class="pony">fun test(a: Wombat trn) =&gt;
   var b: Wombat box = a // Allowed!
 </code></pre>
 
@@ -467,12 +467,12 @@
 <h1 id="consuming-a-variable">Consuming a variable</h1>
 <p>Sometimes, you want to <em>move</em> an object from one variable to another. In other words, you don't want to make a <em>new</em> name for the object, exactly, you want to move the object from some existing name to a different one.</p>
 <p>You can do this by using consume. When you consume a variable you take the value out of it, effectively leaving the variable empty. No code can read from that variable again until a new value is written to it. Consuming a local variable or a parameter allows you to make an alias with the same type, even if it's an <code>iso</code> or <code>trn</code>. For example:</p>
-<pre><code>fun test(a: Wombat iso) =&gt;
+<pre><code class="pony">fun test(a: Wombat iso) =&gt;
   var b: Wombat iso = consume a // Allowed!
 </code></pre>
 
 <p>The compiler is happy with that, because by consuming <code>a</code>, you've said the value can't be used again and the compiler will complain if you try to.</p>
-<pre><code>fun test(a: Wombat iso) =&gt;
+<pre><code class="pony">fun test(a: Wombat iso) =&gt;
   var b: Wombat iso = consume a // Allowed!
   var c: Wombat tag = a // Not allowed!
 </code></pre>
@@ -481,7 +481,7 @@
 <p><strong>Can I <code>consume</code> a field?</strong> Definitely not! Consuming something means it is empty, that is, it has no value. There's no way to be sure no other alias to the object will access that field. If we tried to access a field that was empty, we would crash. But there's a way to do what you want to do: <em>destructive read</em>.</p>
 <h1 id="destructive-read">Destructive read</h1>
 <p>There's another way to <em>move</em> a value from one name to another. Earlier, we talked about how assignment in Pony returns the <em>old</em> value of the left-hand side, rather than the new value. This is called <em>destructive read</em>, and we can use it to do what we want to do, even with fields.</p>
-<pre><code>class Aardvark
+<pre><code class="pony">class Aardvark
   var buddy: Wombat iso
 
   fun test(a: Wombat iso) =&gt;
@@ -493,7 +493,7 @@
 <h1 id="ephemeral-types">Ephemeral types</h1>
 <p>In Pony, every expression has a type. So what's the type of <code>consume a</code>? It's not the same type as <code>a</code>, because it might not be possible to alias <code>a</code>. Instead, it's an <strong>ephemeral</strong> type. That is, it's a type for a value that currently has no name (it might have a name through some other alias, but not the one we just consumed or destructively read).</p>
 <p>To show a type is ephemeral, we put a <code>^</code> at the end. For example:</p>
-<pre><code>fun test(a: Wombat iso): Wombat iso^ =&gt;
+<pre><code class="pony">fun test(a: Wombat iso): Wombat iso^ =&gt;
   consume a
 </code></pre>
 
@@ -502,7 +502,7 @@
 <h1 id="alias-types">Alias types</h1>
 <p>For the same reason Pony has ephemeral types, it also has alias types. An alias type is a way of saying "whatever we can safely alias this thing as". It's only needed when dealing with generic types, which we'll discuss later.</p>
 <p>We indicate an alias type by putting a <code>!</code> at the end. Here's an example:</p>
-<pre><code>fun test(a: A) =&gt;
+<pre><code class="pony">fun test(a: A) =&gt;
   var b: A! = a
 </code></pre>
 
