@@ -460,7 +460,7 @@ end
 
 <p><strong>Is there anything my error handler has to do?</strong> No. If you provide an error handler then it must contain some code, but it is entirely up to you what it does.</p>
 <h1 id="partial-functions">Partial functions</h1>
-<p>Pony does not require that all errors are caught immediately as in our previous examples. Instead functions can throw errors that are caught by whatever code calls them. These are called partial functions (this is a mathmetical term meaning a function that does not have a defined result for all possible inputs, i.e. arguments). Partial functions <strong>must</strong> be marked as such in Pony with a <code>?</code>.</p>
+<p>Pony does not require that all errors are caught immediately as in our previous examples. Instead functions can throw errors that are caught by whatever code calls them. These are called partial functions (this is a mathematical term meaning a function that does not have a defined result for all possible inputs, i.e. arguments). Partial functions <strong>must</strong> be marked as such in Pony with a <code>?</code>.</p>
 <pre><code class="pony">fun factorial(x: I32): I32 ? =&gt;
   if x &lt; 0 then error end
   if x == 0 then
