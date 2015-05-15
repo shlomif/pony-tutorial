@@ -442,11 +442,14 @@
             <div class="section">
               <h1 id="mac-osx">Mac OSX</h1>
 <p>First, install <a href="http://brew.sh/">homebrew</a> if you haven't already.</p>
-<p><code>ponyc</code> can be installed with a published homebrew formula from <a href="http://www.ponylang.org/releases/ponyc.rb">ponylang.org</a>:</p>
-<pre><code class="bash">$ brew install http://www.ponylang.org/releases/ponyc.rb
+<p>Make sure to have the newest <code>brew</code> formulas from <code>homebrew:master</code>:</p>
+<pre><code class="bash">$ brew update
 </code></pre>
 
-<p>A <a href="https://github.com/Homebrew/homebrew/pull/39192">pull request</a> for the ponyc formula to be part of homebrew-core has been submitted and it should be merged soon.</p>
+<p>Then, install ponyc:</p>
+<pre><code class="bash">$ brew install ponyc
+</code></pre>
+
 <h1 id="linux">Linux</h1>
 <p>Installers for various distributions to supply precompiled binaries are available. All linux installers are signed with the public key published <a href="http://ponylang.org/releases/buildbot@lists.ponylang.org.gpg.key">here</a>.</p>
 <h2 id="available-packages">Available packages</h2>
